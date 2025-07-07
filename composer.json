@@ -1,0 +1,22 @@
+{
+    "name": "admin/admin_role_permissions",
+    "description": "Manage admins roles and permissions",
+    "type": "library",
+    "version": "1.0.0",  
+    "license": "MIT",
+    "autoload": {
+      "psr-4": {
+        "admin\\admin_role_permissions\\": "src/"
+      }
+    },
+    "extra": { 
+      "laravel": {
+        "providers": [
+          "admin\\admin_role_permissions\\AdminRolePermissionServiceProvider"
+        ]
+      }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+  }
+  
