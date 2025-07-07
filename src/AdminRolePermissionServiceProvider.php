@@ -23,6 +23,7 @@ class AdminRolePermissionServiceProvider extends ServiceProvider
             __DIR__.'/../resources/views' => resource_path('views/admin/role_permissions'),
             __DIR__ . '/../src/Controllers' => app_path('Http/Controllers/Admin/RolePermissions'),
             __DIR__ . '/../src/Models' => app_path('Models/Admin/RolePermissions'),
+            __DIR__ . '/../src/Requests' => app_path('Http/Requests/Admin/RolePermissions'),
             __DIR__ . '/routes/web.php' => base_path('routes/admin/role_permissions.php'),
         ], 'admin_role_permissions');
 
