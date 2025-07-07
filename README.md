@@ -1,4 +1,4 @@
-# Admin Page (CMS) Manager
+# Admin Role Permission Manager
 
 This package provides comprehensive role and permission management for admin users in Laravel applications.
 
@@ -29,7 +29,7 @@ Add the following to your `composer.json` to use the package from a local path:
 
 1. **Require the package via Composer:**
     ```bash
-    composer require admin/admin_role_permissions --dev
+    composer require admin/admin_role_permissions:@dev
     ```
 
 2. **Publish assets:**
@@ -47,7 +47,7 @@ Add the following to your `composer.json` to use the package from a local path:
     php artisan db:seed --class=admin\\admin_role_permissions\\database\\seeders\\AdminRolePermissionDatabaseSeeder
     ```
 
-2. Access the CMS manager from your admin dashboard.
+2. Access the Admin Role Permission manager from your admin dashboard.
 
 ## Usage
 
@@ -110,4 +110,4 @@ if ($admin->hasPermission('edit_posts')) {
 
 ## License
 
-This package is open-sourced software licensed under the [MIT license](LICENSE).write code in the readme.md file regarding to the admin/page(CMS) manager
+This package is open-sourced software licensed under the [MIT license](LICENSE).write code in the readme.md file regarding to the admin/role-permission manager
