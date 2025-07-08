@@ -1,6 +1,6 @@
 <?php
 
-namespace admin\admin_role_permissions\database\seeders;
+namespace Packages\Admin\AdminRolePermissions\database\seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
