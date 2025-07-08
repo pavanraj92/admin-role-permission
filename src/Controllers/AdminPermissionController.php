@@ -20,7 +20,6 @@ class AdminPermissionController extends Controller
         try {
             $search = $request->query('keyword');
             $permissions = Permission::filter($search)
-                // ->whereStatus(config('constants.status.active'))
                 ->latest()
                 ->paginate($this->perPage)
                 ->withQueryString();
@@ -96,9 +95,8 @@ class AdminPermissionController extends Controller
         $validateData = $request->validated();
         DB::beginTransaction();
         try {
-            $permission->fill($validateData); // Triggers "updating" event
+            $permission->fill($validateData);
             $permission->save();
-            // $permission->update($validateData);
             DB::commit();
             return redirect()->route('admin.permissions.index')->with('success', 'Permission updated successfully.');
         } catch (\Throwable $e) {

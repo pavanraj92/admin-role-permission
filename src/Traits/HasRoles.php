@@ -3,7 +3,6 @@
 namespace admin\admin_role_permissions\Traits;
 
 use admin\admin_role_permissions\Models\Role;
-use admin\admin_role_permissions\Models\Permission;
 
 trait HasRoles
 {
@@ -26,21 +25,6 @@ trait HasRoles
         }
         return $this->roles->contains('id', $role->id);
     }
-
-    // public function hasPermission($permission)
-    // {
-    //     if (is_string($permission)) {
-    //         return $this->permissions()
-    //             ->where('name', $permission)
-    //             ->where('status', 1) // Only enabled permissions
-    //             ->exists();
-    //     }
-    //     return $this->permissions()
-    //         ->where('id', $permission->id)
-    //         ->where('status', 1)
-    //         ->exists();
-    // }
-
 
     public function hasPermission($permission)
     {

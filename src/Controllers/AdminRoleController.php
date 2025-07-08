@@ -22,11 +22,9 @@ class AdminRoleController extends Controller
         try {
             $search = $request->query('keyword');
             $roles = Role::filter($search)
-                // ->whereStatus(config('constants.status.active'))
                 ->latest()
                 ->paginate($this->perPage)
                 ->withQueryString();
-                // dd($roles);
             return view('admin_role_permissions::admin.role.index', compact('roles'));
         } catch (\Throwable $e) {
             report($e);

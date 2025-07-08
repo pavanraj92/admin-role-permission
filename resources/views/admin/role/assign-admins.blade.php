@@ -8,7 +8,6 @@
 <!-- Select2 CSS & JS -->
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 <!-- Custom CSS for the page -->
-<!-- <link rel="stylesheet" href="{{ asset('backend/custom.css') }}"> -->
 @endpush
 
 @section('breadcrumb')

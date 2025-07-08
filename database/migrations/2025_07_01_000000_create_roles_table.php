@@ -10,7 +10,7 @@ return new class extends Migration {
         Schema::create('roles', function (Blueprint $table) {
             $table->id();
             $table->string('name')->nullable()->unique();
-            $table->boolean('status')->default(1); // 1 = active, 0 = inactive
+            $table->boolean('status')->default(1);
             $table->timestamps();
         });
     }
