@@ -155,7 +155,7 @@
 
 
 <!-- dynamic modal -->
-@extends('admind::admin.components.global.dynamic-modal')
+@extends('admin_role_permissions::admin.components.global.dynamic-modal')
  
 @endsection
 
