@@ -1,4 +1,5 @@
 <?php
+
 namespace admin\admin_role_permissions\Controllers;
 
 use App\Http\Controllers\Controller;
@@ -18,7 +19,7 @@ class AdminRoleController extends Controller
      */
     public function index(Request $request)
     {
-        
+
         try {
             $search = $request->query('keyword');
             $roles = Role::filter($search)
@@ -151,16 +152,19 @@ class AdminRoleController extends Controller
     {
         if ($request->ajax()) {
             $search = $request->query('term');
-            $admins = Admin::select('id', 'name')
-                ->when($search, fn($q) => $q->where('name', 'like', "%{$search}%"))
+            $admins = Admin::select('id', 'first_name', 'last_name')
+                ->when($search, function ($q) use ($search) {
+                    $q->where('first_name', 'like', "%{$search}%")
+                        ->orWhere('last_name', 'like', "%{$search}%");
+                })
                 ->get();
 
             return response()->json(
-                $admins->map(fn($admin) => ['id' => $admin->id, 'text' => $admin->name])
+                $admins->map(fn($admin) => ['id' => $admin->id, 'text' => $admin->first_name . $admin->last_name])
             );
         }
 
-        $admins = Admin::select('id', 'name')->get();
+        $admins = Admin::select('id', 'first_name', 'last_name')->get();
         $assignedAdminIds = $role->admins()->pluck('admins.id')->toArray();
 
         return view('admin_role_permissions::admin.role.assign-admins', compact('role', 'admins', 'assignedAdminIds'));
