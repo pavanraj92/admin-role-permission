@@ -1,11 +1,11 @@
 <?php
 
-namespace Packages\Admin\AdminRolePermissions\database\seeders;
+namespace Admin\AdminRolePermissions\Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Packages\Admin\AdminRolePermissions\database\seeders\AssignAdminRoleSeeder;
-use Packages\Admin\AdminRolePermissions\database\seeders\AdminPermissionSeeder;
-use Packages\Admin\AdminRolePermissions\database\seeders\AdminRoleSeeder;
+use Admin\AdminRolePermissions\Database\Seeders\AssignAdminRoleSeeder;
+use Admin\AdminRolePermissions\Database\Seeders\AdminPermissionSeeder;
+use Admin\AdminRolePermissions\Database\Seeders\AdminRoleSeeder;
 
 class AdminRolePermissionDatabaseSeeder extends Seeder
 {
