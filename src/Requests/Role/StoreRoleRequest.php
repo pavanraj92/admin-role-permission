@@ -27,7 +27,7 @@ class StoreRoleRequest extends FormRequest
             'name' => [
                 'required',
                 'string',
-                'max:15',
+                'max:50',
                 'unique:roles,name',
                 'regex:/^(?:[A-Za-z]+(?: [A-Za-z]+)*){3,}$/',
             ],

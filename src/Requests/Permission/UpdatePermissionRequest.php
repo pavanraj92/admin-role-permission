@@ -17,7 +17,7 @@ class UpdatePermissionRequest extends FormRequest
             'name' => [
                 'required',
                 'string',
-                'max:15',
+                'max:50',
                 'unique:permissions,name,' . $this->route('permission')->id,
                  'regex:/^(?:[A-Za-z]+(?: [A-Za-z]+)*){3,}$/'
             ],
