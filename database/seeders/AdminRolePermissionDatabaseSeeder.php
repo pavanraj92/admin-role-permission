@@ -1,6 +1,6 @@
 <?php
 
-namespace Packages\Admin\AdminRolePermissions\database\seeders;
+namespace Admin\AdminRolePermissions\Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Packages\Admin\AdminRolePermissions\database\seeders\AssignAdminRoleSeeder;
