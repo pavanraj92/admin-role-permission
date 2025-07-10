@@ -18,7 +18,7 @@ class UpdateRoleRequest extends FormRequest
                 'required',
                 'string',
                 'min:3',
-                'max:15',
+                'max:50',
                 'unique:roles,name,' . $this->route('role')->id,
                 'regex:/^(?:[A-Za-z]+(?: [A-Za-z]+)*){3,}$/',
             ],
