@@ -54,7 +54,7 @@
                 <div class="card-body">
                     {{-- <h4 class="card-title">Manage roles</h4> --}}
 
-                    @admincan('assign_permission')
+                    @admincan('roles_manager_create')
                     <div class="text-right">
                         <a href="{{ route('admin.roles.create') }}" class="btn btn-primary mb-3">Create New Role</a>
                     </div>
