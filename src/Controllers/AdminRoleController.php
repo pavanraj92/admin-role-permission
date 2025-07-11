@@ -14,12 +14,23 @@ use admin\admin_auth\Models\Admin;
 class AdminRoleController extends Controller
 {
     protected int $perPage = 5;
+
+
+    public function __construct()
+    {
+        $this->middleware('admincan_permission:roles_manager_list')->only(['index']);
+        $this->middleware('admincan_permission:roles_manager_create')->only(['create', 'store']);
+        $this->middleware('admincan_permission:roles_manager_edit')->only(['edit', 'update']);
+        $this->middleware('admincan_permission:roles_manager_view')->only(['show']);
+        $this->middleware('admincan_permission:roles_manager_delete')->only(['destroy']);
+        $this->middleware('admincan_permission:assign_permission')->only(['editPermissionsAssign', 'updatePermissionsAssign']);
+        $this->middleware('admincan_permission:assign_roles')->only(['editAssignAdminsRoles', 'updateAssignAdminsRoles']);
+    }
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
-
         try {
             $search = $request->query('keyword');
             $roles = Role::filter($search)
