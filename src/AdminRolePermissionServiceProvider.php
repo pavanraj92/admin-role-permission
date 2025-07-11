@@ -11,24 +11,36 @@ class AdminRolePermissionServiceProvider extends ServiceProvider
 {
     public function boot()
     {
-        // Load routes, views, migrations from the package
-        $this->loadRoutesFrom(__DIR__.'/routes/web.php');
-        $this->loadViewsFrom(__DIR__.'/../resources/views', 'admin_role_permissions');
-        $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
-        $this->mergeConfigFrom(__DIR__.'/../config/admin.php', 'admin_role_permissions');
-        
+        // Load views from published module, then fallback to package
+        $this->loadViewsFrom([
+            base_path('Modules/AdminRolePermissions/resources/views'),
+            resource_path('views/admin/role_permissions'),
+            __DIR__ . '/../resources/views'
+        ], 'admin_role_permissions');
 
-        $this->publishes([  
-            __DIR__ . '/../config/admin.php' => config_path('admin_role_permissions.php'),
-            __DIR__.'/../resources/views' => resource_path('views/admin/role_permissions'),
-            __DIR__ . '/../src/Controllers' => app_path('Http/Controllers/Admin/RolePermissions'),
-            __DIR__ . '/../src/Models' => app_path('Models/Admin/RolePermissions'),
-            __DIR__ . '/../src/Requests' => app_path('Http/Requests/Admin/RolePermissions'),
-            __DIR__ . '/routes/web.php' => base_path('routes/admin/role_permissions.php'),
+        // Also register module views with a specific namespace for explicit usage
+        if (is_dir(base_path('Modules/AdminRolePermissions/resources/views'))) {
+            $this->loadViewsFrom(base_path('Modules/AdminRolePermissions/resources/views'), 'admin-role-permissions-module');
+        }
+
+        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
+        if (is_dir(base_path('Modules/AdminRolePermissions/database/migrations'))) {
+            $this->loadMigrationsFrom(base_path('Modules/AdminRolePermissions/database/migrations'));
+        }
+
+        $this->mergeConfigFrom(__DIR__ . '/../config/admin.php', 'admin_role_permissions');
+        if (file_exists(base_path('Modules/AdminRolePermissions/config/admin.php'))) {
+            $this->mergeConfigFrom(base_path('Modules/AdminRolePermissions/config/admin.php'), 'admin_role_permissions');
+        }
+
+        // Standard publishing for non-PHP files
+        $this->publishes([
+            __DIR__ . '/../config/' => base_path('Modules/AdminRolePermissions/config/'),
+            __DIR__ . '/../database/migrations' => base_path('Modules/AdminRolePermissions/database/migrations'),
+            __DIR__ . '/../resources/views' => base_path('Modules/AdminRolePermissions/resources/views/'),
         ], 'admin_role_permissions');
 
         $this->registerAdminRoutes();
-
     }
 
     protected function registerAdminRoutes()
@@ -37,21 +49,30 @@ class AdminRolePermissionServiceProvider extends ServiceProvider
             return; // Avoid errors before migration
         }
 
-        $admin = DB::table('admins')
-            ->orderBy('created_at', 'asc')
-            ->first();
-            
-        $slug = $admin->website_slug ?? 'admin';
+        $slug = DB::table('admins')->latest()->value('website_slug') ?? 'admin';
 
         Route::middleware('web')
-            ->prefix("{$slug}/admin") // dynamic prefix
+            ->prefix("{$slug}/admin")
             ->group(function () {
-                $this->loadRoutesFrom(__DIR__.'/routes/web.php');
+                // Load routes from published module first, then fallback to package
+                if (file_exists(base_path('Modules/AdminRolePermissions/routes/web.php'))) {
+                    $this->loadRoutesFrom(base_path('Modules/AdminRolePermissions/routes/web.php'));
+                } else {
+                    $this->loadRoutesFrom(__DIR__ . '/routes/web.php');
+                }
             });
     }
 
     public function register()
     {
-        // You can bind classes or configs here
+        // Register the publish command
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                \admin\admin_role_permissions\Console\Commands\PublishAdminRolePermissionsModuleCommand::class,
+                \admin\admin_role_permissions\Console\Commands\CheckModuleStatusCommand::class,
+                \admin\admin_role_permissions\Console\Commands\DebugRolePermissionsCommand::class,
+                \admin\admin_role_permissions\Console\Commands\TestRolePermissionViewResolutionCommand::class,
+            ]);
+        }
     }
 }
