@@ -8,10 +8,21 @@ use Illuminate\Support\Facades\DB;
 use admin\admin_role_permissions\Requests\Permission\StorePermissionRequest;
 use admin\admin_role_permissions\Requests\Permission\UpdatePermissionRequest;
 use admin\admin_role_permissions\Models\Permission;
+use admin\admin_role_permissions\Models\Role;
 
 class AdminPermissionController extends Controller
 {
     protected int $perPage = 5;
+
+    public function __construct()
+    {
+        $this->middleware('admincan_permission:permission_manager_list')->only(['index']);
+        $this->middleware('admincan_permission:permission_manager_create')->only(['create', 'store']);
+        $this->middleware('admincan_permission:permission_manager_edit')->only(['edit', 'update']);
+        $this->middleware('admincan_permission:permission_manager_view')->only(['show']);
+        $this->middleware('admincan_permission:permission_manager_delete')->only(['destroy']);
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -51,7 +62,25 @@ class AdminPermissionController extends Controller
         $validateData = $request->validated();
         DB::beginTransaction();
         try {
-            Permission::create($validateData);
+            $permission =  Permission::create($validateData);
+            // Get Super Admin role
+            $superAdminRoles = DB::table('roles')->where('name', 'Super Admin')->get();
+
+            if ($superAdminRoles) {
+                foreach ($superAdminRoles as $role) {
+                    DB::table('permission_role')->updateOrInsert(
+                        [
+                            'role_id' => $role->id,
+                            'permission_id' => $permission->id,
+                        ],
+                        [
+                            'created_at' => now(),
+                            'updated_at' => now(),
+                        ]
+                    );
+                }
+            }
+
             DB::commit();
             return redirect()->route('admin.permissions.index')->with('success', 'Permission created successfully.');
         } catch (\Throwable $e) {
