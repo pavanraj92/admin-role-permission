@@ -14,6 +14,7 @@ class AdminPermissionSeeder extends Seeder
     {
         $permissions = [
             ['name' => 'Dashboard', 'slug' => 'dashboard'],
+            ['name' => 'Package Manager List', 'slug' => 'package_manager_list'],
 
             // Admin Manager
             ['name' => 'Admin Manager List', 'slug' => 'admin_manager_list'],
