@@ -49,17 +49,17 @@ class AdminRolePermissionServiceProvider extends ServiceProvider
             return; // Avoid errors before migration
         }
 
-        $slug = DB::table('admins')->latest()->value('website_slug') ?? 'admin';
+        $admin = DB::table('admins')
+            ->orderBy('created_at', 'asc')
+            ->first();
+
+        $slug = $admin->website_slug ?? 'admin';
+
 
         Route::middleware('web')
-            ->prefix("{$slug}/admin")
+            ->prefix("{$slug}/admin") // dynamic prefix
             ->group(function () {
-                // Load routes from published module first, then fallback to package
-                if (file_exists(base_path('Modules/AdminRolePermissions/routes/web.php'))) {
-                    $this->loadRoutesFrom(base_path('Modules/AdminRolePermissions/routes/web.php'));
-                } else {
-                    $this->loadRoutesFrom(__DIR__ . '/routes/web.php');
-                }
+                $this->loadRoutesFrom(__DIR__ . '/routes/web.php');
             });
     }
 
