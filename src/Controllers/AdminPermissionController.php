@@ -9,11 +9,10 @@ use admin\admin_role_permissions\Requests\Permission\StorePermissionRequest;
 use admin\admin_role_permissions\Requests\Permission\UpdatePermissionRequest;
 use admin\admin_role_permissions\Models\Permission;
 use admin\admin_role_permissions\Models\Role;
+use admin\admin_auth\Models\Admin;
 
 class AdminPermissionController extends Controller
 {
-    protected int $perPage = 5;
-
     public function __construct()
     {
         $this->middleware('admincan_permission:permission_manager_list')->only(['index']);
@@ -31,8 +30,9 @@ class AdminPermissionController extends Controller
         try {
             $search = $request->query('keyword');
             $permissions = Permission::filter($search)
+                ->sortable()
                 ->latest()
-                ->paginate($this->perPage)
+                ->paginate(Admin::getPerPageLimit())
                 ->withQueryString();
             return view('admin_role_permissions::admin.permission.index', compact('permissions'));
         } catch (\Throwable $e) {

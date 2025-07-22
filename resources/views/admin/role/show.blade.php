@@ -5,7 +5,7 @@
 @section('page-title', 'Role Details')
 
 @section('breadcrumb')
-<li class="breadcrumb-item active" aria-current="page"><a href="{{ route('admin.roles.index') }}">Manage Roles</a></li>
+<li class="breadcrumb-item active" aria-current="page"><a href="{{ route('admin.roles.index') }}">Roles Manager </a></li>
 <li class="breadcrumb-item active" aria-current="page">Role Details</li>
 @endsection
 

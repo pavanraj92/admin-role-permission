@@ -11,6 +11,7 @@
 @endpush
 
 @section('breadcrumb')
+<li class="breadcrumb-item active" aria-current="page"><a href="{{ route('admin.roles.index') }}">Roles Manager</a></li>
 <li class="breadcrumb-item active" aria-current="page">Manage Assign Permissions</li>
 @endsection
 
