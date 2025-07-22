@@ -13,9 +13,6 @@ use admin\admin_auth\Models\Admin;
 
 class AdminRoleController extends Controller
 {
-    protected int $perPage = 5;
-
-
     public function __construct()
     {
         $this->middleware('admincan_permission:roles_manager_list')->only(['index']);
@@ -34,8 +31,9 @@ class AdminRoleController extends Controller
         try {
             $search = $request->query('keyword');
             $roles = Role::filter($search)
+                ->sortable()
                 ->latest()
-                ->paginate($this->perPage)
+                ->paginate(Admin::getPerPageLimit())
                 ->withQueryString();
             return view('admin_role_permissions::admin.role.index', compact('roles'));
         } catch (\Throwable $e) {

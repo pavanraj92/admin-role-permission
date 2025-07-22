@@ -5,7 +5,7 @@
 @section('page-title', 'Permission Details')
 
 @section('breadcrumb')
-<li class="breadcrumb-item active" aria-current="page"><a href="{{ route('admin.permissions.index') }}">Manage Permissions</a></li>
+<li class="breadcrumb-item active" aria-current="page"><a href="{{ route('admin.permissions.index') }}">Permissions Manager</a></li>
 <li class="breadcrumb-item active" aria-current="page">Permission Details</li>
 @endsection
 

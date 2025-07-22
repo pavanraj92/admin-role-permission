@@ -2,7 +2,7 @@
 
 @section('title', 'Roles Management')
 
-@section('page-title', 'Manage Roles')
+@section('page-title', 'Roles Manager')
 
 @push('styles')
 <!-- Select2 CSS -->
@@ -17,7 +17,7 @@
 @endpush
 
 @section('breadcrumb')
-<li class="breadcrumb-item active" aria-current="page">Manage Roles</li>
+<li class="breadcrumb-item active" aria-current="page"> Roles Manager</li>
 @endsection
 
 
@@ -39,10 +39,13 @@
                                     value="{{ app('request')->query('keyword') }}" placeholder="Enter name">
                             </div>
                         </div>
-                    </div>
-                    <div class="text-right">
-                        <button type="submit" form="filterForm" class="btn btn-primary mb-3">Filter</button>
-                        <a href="{{ route('admin.roles.index') }}" class="btn btn-secondary mb-3">Reset</a>
+                        <div class="col-auto mt-1 text-right">
+                            <div class="form-group">
+                                <label for="created_at">&nbsp;</label>
+                                <button type="submit" form="filterForm" class="btn btn-primary mt-4">Filter</button>
+                                <a href="{{ route('admin.roles.index') }}" class="btn btn-secondary mt-4">Reset</a>
+                            </div>
+                        </div>
                     </div>
                 </form>
             </div>
@@ -52,8 +55,6 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    {{-- <h4 class="card-title">Manage roles</h4> --}}
-
                     @admincan('roles_manager_create')
                     <div class="text-right">
                         <a href="{{ route('admin.roles.create') }}" class="btn btn-primary mb-3">Create New Role</a>
@@ -64,10 +65,11 @@
                         <table class="table">
                             <thead class="thead-light">
                                 <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Name</th>
-                                    <th scope="col">Created At</th>
+                                    <th scope="col">S. No.</th>
+                                    <th scope="col">@sortablelink('name', 'Name', [], ['style' => 'color: #4F5467; text-decoration: none;']) </th>
+                                    <th scope="col">@sortablelink('created_at', 'Created At', [], ['style' => 'color: #4F5467; text-decoration: none;']) </th>
                                     <th scope="col">Action</th>
+
                                 </tr>
                             </thead>
                             <tbody>
@@ -82,7 +84,7 @@
                                     <td>
                                         {{ $role->created_at->format('Y-m-d H:i:s') }}
                                     </td>
-                                    <td>
+                                    <td style="width: 20%;">
                                         @php
                                         $html = '<label for="admins">Select Admins</label><select name="admins[]" class="form-control select2" multiple></select>';
                                         $config = [
@@ -118,20 +120,20 @@
                                         </button>
                                         @endadmincan
 
-                                        @admincan('roles_manager_edit')
-                                        <a href="{{ route('admin.roles.edit', $role) }}"
-                                            data-toggle="tooltip"
-                                            data-placement="top"
-                                            title="Edit this record"
-                                            class="btn btn-success btn-sm"><i class="mdi mdi-pencil"></i></a>
-                                        @endadmincan
-
                                         @admincan('roles_manager_view')
                                         <a href="{{ route('admin.roles.show', $role) }}"
                                             data-toggle="tooltip"
                                             data-placement="top"
                                             title="View this record"
                                             class="btn btn-warning btn-sm"><i class="mdi mdi-eye"></i></a>
+                                        @endadmincan
+
+                                        @admincan('roles_manager_edit')
+                                        <a href="{{ route('admin.roles.edit', $role) }}"
+                                            data-toggle="tooltip"
+                                            data-placement="top"
+                                            title="Edit this record"
+                                            class="btn btn-success btn-sm"><i class="mdi mdi-pencil"></i></a>
                                         @endadmincan
 
                                         @admincan('roles_manager_delete')
@@ -152,7 +154,7 @@
                                 @endforeach
                                 @else
                                 <tr>
-                                    <td colspan="4" class="text-center">No roles found.</td>
+                                    <td colspan="4" class="text-center">No records found.</td>
                                 </tr>
                                 @endif
                             </tbody>

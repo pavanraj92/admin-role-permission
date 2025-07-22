@@ -2,11 +2,11 @@
 
 @section('title', 'Roles Management')
 
-@section('page-title', 'Create Role')
+@section('page-title', (isset($role) ? 'Edit' : 'Create') . ' Role')
 
 @section('breadcrumb')
-<li class="breadcrumb-item active" aria-current="page"><a href="{{ route('admin.roles.index') }}">Manage Roles</a></li>
-<li class="breadcrumb-item active" aria-current="page">Create Role</li>
+<li class="breadcrumb-item active" aria-current="page"><a href="{{ route('admin.roles.index') }}">Roles Manager</a></li>
+<li class="breadcrumb-item active" aria-current="page">{{isset($role) ? 'Edit' : 'Create'}} Role</li>
 @endsection
 
 @section('content')

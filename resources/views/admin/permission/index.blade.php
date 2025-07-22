@@ -2,10 +2,10 @@
 
 @section('title', 'Permissions Management')
 
-@section('page-title', 'Manage Permissions')
+@section('page-title', 'Permissions Manager')
 
 @section('breadcrumb')
-<li class="breadcrumb-item active" aria-current="page">Manage Permissions</li>
+<li class="breadcrumb-item active" aria-current="page">Permissions Manager</li>
 @endsection
 
 @section('content')
@@ -25,10 +25,13 @@
                                     value="{{ app('request')->query('keyword') }}" placeholder="Enter name">
                             </div>
                         </div>
-                    </div>
-                    <div class="text-right">
-                        <button type="submit" form="filterForm" class="btn btn-primary mb-3">Filter</button>
-                        <a href="{{ route('admin.permissions.index') }}" class="btn btn-secondary mb-3">Reset</a>
+                        <div class="col-auto mt-1 text-right">
+                            <div class="form-group">
+                                <label for="created_at">&nbsp;</label>
+                                <button type="submit" form="filterForm" class="btn btn-primary mt-4">Filter</button>
+                                <a href="{{ route('admin.permissions.index') }}" class="btn btn-secondary mt-4">Reset</a>
+                            </div>
+                        </div>
                     </div>
                 </form>
             </div>
@@ -38,7 +41,6 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    {{-- <h4 class="card-title">Manage permissions</h4> --}}
                     @admincan('permission_manager_create')
                     <div class="text-right">
                         <a href="{{ route('admin.permissions.create') }}" class="btn btn-primary mb-3">Create New Permission</a>
@@ -49,11 +51,11 @@
                         <table class="table">
                             <thead class="thead-light">
                                 <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Name</th>
-                                    <th scope="col">Slug</th>
-                                    <th scope="col">Status</th>
-                                    <th scope="col">Created At</th>
+                                    <th scope="col">S. No.</th>
+                                    <th scope="col">@sortablelink('name', 'Name', [], ['style' => 'color: #4F5467; text-decoration: none;']) </th>
+                                    <th scope="col">@sortablelink('slug', 'Slug', [], ['style' => 'color: #4F5467; text-decoration: none;']) </th>
+                                    <th scope="col">@sortablelink('status', 'Status', [], ['style' => 'color: #4F5467; text-decoration: none;']) </th>
+                                    <th scope="col">@sortablelink('created_at', 'Created At', [], ['style' => 'color: #4F5467; text-decoration: none;']) </th>
                                     <th scope="col">Action</th>
                                 </tr>
                             </thead>
@@ -91,21 +93,20 @@
                                     <td>
                                         {{ $permission->created_at->format('Y-m-d H:i:s') }}
                                     </td>
-                                    <td>
-                                        @admincan('permission_manager_edit')
-                                        <a href="{{ route('admin.permissions.edit', $permission) }}"
-                                            data-toggle="tooltip"
-                                            data-placement="top"
-                                            title="Edit this record"
-                                            class="btn btn-success btn-sm"><i class="mdi mdi-pencil"></i></a>
-                                        @endadmincan
-
+                                    <td style="width: 10%;">
                                         @admincan('permission_manager_view')
                                         <a href="{{ route('admin.permissions.show', $permission) }}"
                                             data-toggle="tooltip"
                                             data-placement="top"
                                             title="View this record"
                                             class="btn btn-warning btn-sm"><i class="mdi mdi-eye"></i></a>
+                                        @endadmincan
+                                        @admincan('permission_manager_edit')
+                                        <a href="{{ route('admin.permissions.edit', $permission) }}"
+                                            data-toggle="tooltip"
+                                            data-placement="top"
+                                            title="Edit this record"
+                                            class="btn btn-success btn-sm"><i class="mdi mdi-pencil"></i></a>
                                         @endadmincan
                                         {{--
                                             @admincan('permission_manager_delete')
@@ -127,7 +128,7 @@
                                 @endforeach
                                 @else
                                 <tr>
-                                    <td colspan="4" class="text-center">No permissions found.</td>
+                                    <td colspan="4" class="text-center">No records found.</td>
                                 </tr>
                                 @endif
                             </tbody>

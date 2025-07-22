@@ -5,13 +5,22 @@ namespace admin\admin_role_permissions\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use admin\admin_role_permissions\Models\Role;
+use Kyslik\ColumnSortable\Sortable;
 
 class Permission extends Model
 {
+    use Sortable;
     protected $fillable = [
         'name',
         'slug',
         'status'
+    ];
+
+    protected $sortable = [
+        'name',
+        'slug',
+        'status',
+        'created_at',
     ];
 
     protected static function boot()
