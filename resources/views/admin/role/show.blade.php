@@ -28,16 +28,19 @@
                                     <th scope="row">Created At</th>
                                     <td scope="col">{{ $role->created_at ?? 'N/A' }}</td>
                                 </tr>
-
                                 <tr>
-                                    <th scope="row">Assigned Permissions</th>
-                                    <td scope="col">
+                                    <th>Assigned Permissions</th>
+                                    <td>
                                         @if($role->permissions && $role->permissions->count())
-                                        <ul class="mb-0 pl-3">
+                                        <div class="row">
                                             @foreach($role->permissions as $permission)
-                                            <li>{{ ucfirst(str_replace('_', ' ', $permission->name)) }}</li>
+                                            <div class="col-md-3 mb-2">
+                                                <span class="badge bg-secondary text-white p-2">
+                                                    {{ ucfirst(str_replace('_', ' ', $permission->name)) }}
+                                                </span>
+                                            </div>
                                             @endforeach
-                                        </ul>
+                                        </div>
                                         @else
                                         <span class="text-muted">No permissions assigned</span>
                                         @endif

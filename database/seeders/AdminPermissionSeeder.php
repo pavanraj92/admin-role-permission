@@ -87,6 +87,9 @@ class AdminPermissionSeeder extends Seeder
             ['name' => 'Settings Manager View', 'slug' => 'settings_manager_view'],
             ['name' => 'Settings Manager Edit', 'slug' => 'settings_manager_edit'],
             ['name' => 'Settings Manager Delete', 'slug' => 'settings_manager_delete'],
+
+            // SEO Manager
+            ['name' => 'SEO Manager List', 'slug' => 'seo_manager_list']
         ];
 
         collect($permissions)->each(function ($perm) {
