@@ -82,7 +82,9 @@
                                     <th scope="row">{{ $i }}</th>
                                     <td>{{ $role->name }}</td>
                                     <td>
-                                        {{ $role->created_at->format('Y-m-d H:i:s') }}
+                                        {{ $role->created_at
+                                            ? $role->created_at->format(config('GET.admin_date_time_format') ?? 'Y-m-d H:i:s')
+                                            : '—' }}
                                     </td>
                                     <td style="width: 20%;">
                                         @php

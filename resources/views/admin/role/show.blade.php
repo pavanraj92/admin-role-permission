@@ -26,7 +26,11 @@
                                 </tr>
                                 <tr>
                                     <th scope="row">Created At</th>
-                                    <td scope="col">{{ $role->created_at ?? 'N/A' }}</td>
+                                    <td scope="col">
+                                        {{ $role->created_at
+                                            ? $role->created_at->format(config('GET.admin_date_time_format') ?? 'Y-m-d H:i:s')
+                                            : '—' }}
+                                    </td>
                                 </tr>
                                 <tr>
                                     <th>Assigned Permissions</th>

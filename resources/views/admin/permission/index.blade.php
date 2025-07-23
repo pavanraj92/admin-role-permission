@@ -91,7 +91,9 @@
                                         </a>
                                     </td>
                                     <td>
-                                        {{ $permission->created_at->format('Y-m-d H:i:s') }}
+                                        {{ $permission->created_at
+                                            ? $permission->created_at->format(config('GET.admin_date_time_format') ?? 'Y-m-d H:i:s')
+                                            : '—' }}
                                     </td>
                                     <td style="width: 10%;">
                                         @admincan('permission_manager_view')
