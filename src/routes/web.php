@@ -4,9 +4,9 @@ use Illuminate\Support\Facades\Route;
 use admin\admin_role_permissions\Controllers\AdminRoleController;
 use admin\admin_role_permissions\Controllers\AdminPermissionController;
 
-Route::prefix('')->name('admin.')->middleware('auth:admin')->group(function () {
+Route::prefix('')->name('admin.')->middleware(['web', 'admin.auth'])->group(function () {
     Route::resource('roles', AdminRoleController::class);
-    
+
     Route::resource('permissions', AdminPermissionController::class);
     Route::post('updateStatus', [AdminPermissionController::class, 'updateStatus'])->name('updateStatus');
 
