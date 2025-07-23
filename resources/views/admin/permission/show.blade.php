@@ -30,7 +30,9 @@
                                 </tr>
                                 <tr>
                                     <th scope="row">Created At</th>
-                                    <td scope="col">{{ $permission->created_at ? $permission->created_at->format('Y-m-d H:i:s') : 'N/A' }}</td>
+                                    <td scope="col"> {{ $permission->created_at
+                                                        ? $permission->created_at->format(config('GET.admin_date_time_format') ?? 'Y-m-d H:i:s')
+                                                        : '—' }}</td>
                                 </tr>
                             </tbody>
                         </table>
