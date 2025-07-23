@@ -180,7 +180,7 @@
 
 
 <!-- dynamic modal -->
-@extends('admin_role_permissions::admin.components.global.dynamic-modal')
+@include('admin_role_permissions::admin.components.global.dynamic-modal')
 
 @endsection
 
