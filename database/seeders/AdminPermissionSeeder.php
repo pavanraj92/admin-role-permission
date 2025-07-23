@@ -93,11 +93,13 @@ class AdminPermissionSeeder extends Seeder
         ];
 
         collect($permissions)->each(function ($perm) {
-            $permission = DB::table('permissions')->updateOrInsert(
+            DB::table('permissions')->updateOrInsert(
                 ['slug' => $perm['slug']],
                 [
                     'name' => $perm['name'],
                     'status' => 1,
+                    'created_at' => now(),
+                    'updated_at' => now(),
                 ]
             );
             $this->command?->info("Permission seeded: {$perm['name']} ({$perm['slug']})");
