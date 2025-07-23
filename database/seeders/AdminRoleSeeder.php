@@ -12,8 +12,15 @@ class AdminRoleSeeder extends Seeder
      */
     public function run(): void
     {
+        $now = now();
+
         $roles = [
-            ['name' => 'Super Admin', 'status' => config('admin_role_permissions.status.active', 1)],
+            [
+                'name' => 'Super Admin',
+                'status' => 1,
+                'created_at' => $now,
+                'updated_at' => $now,
+            ],
         ];
 
         foreach ($roles as $role) {

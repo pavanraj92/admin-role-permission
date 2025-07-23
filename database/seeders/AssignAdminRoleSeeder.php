@@ -30,7 +30,11 @@ class AssignAdminRoleSeeder extends Seeder
         // Assign role to admin (assuming pivot table 'role_admin')
         DB::table('role_admin')->updateOrInsert(
             ['admin_id' => $admin->id, 'role_id' => $role->id],
-            []
+            [
+            'created_at' => now(),
+            'updated_at' => now(),
+            'status' => 1
+            ]
         );
 
         // Assign all permissions to Super Admin role (assuming pivot table 'permission_role')
@@ -38,7 +42,11 @@ class AssignAdminRoleSeeder extends Seeder
         foreach ($allPermissions as $permissionId) {
             DB::table('permission_role')->updateOrInsert(
             ['role_id' => $role->id, 'permission_id' => $permissionId],
-            []
+            [
+                'created_at' => now(),
+                'updated_at' => now(),
+                'status' => 1
+            ]
             );
         }
 

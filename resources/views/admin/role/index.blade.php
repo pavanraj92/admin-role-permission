@@ -130,7 +130,7 @@
                                             class="btn btn-warning btn-sm"><i class="mdi mdi-eye"></i></a>
                                         @endadmincan
 
-                                        @if($role->id != 1) <!-- Assuming 1 is the ID for 'super admin' -->
+
                                         @admincan('roles_manager_edit')
                                         <a href="{{ route('admin.roles.edit', $role) }}"
                                             data-toggle="tooltip"
@@ -139,7 +139,7 @@
                                             class="btn btn-success btn-sm"><i class="mdi mdi-pencil"></i></a>
                                         @endadmincan
 
-
+                                        @if($role->id != 1) <!-- Assuming 1 is the ID for 'super admin' -->
                                         @admincan('roles_manager_delete')
                                         <a href="javascript:void(0)"
                                             data-toggle="tooltip"
