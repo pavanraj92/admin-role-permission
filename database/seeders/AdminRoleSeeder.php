@@ -3,7 +3,7 @@
 namespace Admin\AdminRolePermissions\Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use admin\admin_role_permissions\Models\Role;
+use Illuminate\Support\Facades\DB;
 
 class AdminRoleSeeder extends Seeder
 {
@@ -17,7 +17,10 @@ class AdminRoleSeeder extends Seeder
         ];
 
         foreach ($roles as $role) {
-            Role::firstOrCreate(['name' => $role['name']], $role);
+            DB::table('roles')->updateOrInsert(
+                ['name' => $role['name']],
+                $role
+            );
         }
     }
 }

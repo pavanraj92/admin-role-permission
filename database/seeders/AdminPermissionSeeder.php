@@ -3,7 +3,7 @@
 namespace Admin\AdminRolePermissions\Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use admin\admin_role_permissions\Models\Permission;
+use Illuminate\Support\Facades\DB;
 
 class AdminPermissionSeeder extends Seeder
 {
@@ -93,14 +93,14 @@ class AdminPermissionSeeder extends Seeder
         ];
 
         collect($permissions)->each(function ($perm) {
-            $permission = Permission::updateOrCreate(
+            $permission = DB::table('permissions')->updateOrInsert(
                 ['slug' => $perm['slug']],
                 [
                     'name' => $perm['name'],
                     'status' => 1,
                 ]
             );
-            $this->command?->info("Permission seeded: {$permission->name} ({$permission->slug})");
+            $this->command?->info("Permission seeded: {$perm['name']} ({$perm['slug']})");
         });
     }
 }
