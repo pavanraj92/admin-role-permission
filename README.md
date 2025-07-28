@@ -1,6 +1,7 @@
 # Admin Role Permission Manager
 
-This package provides comprehensive role and permission management for admin users in Laravel applications.
+This package provides comprehensive role and permission management for admin users in Laravel applications. During installation, it automatically installs the Admin Manager package.
+---
 
 ## Features
 
@@ -10,11 +11,22 @@ This package provides comprehensive role and permission management for admin use
 - Assign roles to admin users
 - Role-based access control for admin users
 - Enable/disable permissions
-- Search and filter roles and permissions
+- Role-based access control
+- AJAX-based assignment with Select2
+- Search and filter support
 
-## Need to update `composer.json` file
+---
 
-Add the following to your `composer.json` to use the package from a local path:
+## Requirements
+
+- PHP >=8.2
+- Laravel Framework >= 12.x
+
+---
+
+## Installation
+
+### 1. Add Git Repository to `composer.json`
 
 ```json
 "repositories": [
@@ -25,29 +37,16 @@ Add the following to your `composer.json` to use the package from a local path:
 ]
 ```
 
-## Installation
-
-1. **Require the package via Composer:**
+### 2. Require the package via Composer
     ```bash
     composer require admin/admin_role_permissions:@dev
     ```
 
-2. **Publish assets:**
+### 3. Publish assets
     ```bash
-    php artisan vendor:publish --tag=admin_role_permissions
+    php artisan admin_role_permissions:publish --force
     ```
-
-3. **Run migrations:**
-    ```bash
-    php artisan migrate
-    ```
-
-4. **Seed initial data:**
-    ```bash
-    php artisan db:seed --class=admin\\admin_role_permissions\\database\\seeders\\AdminRolePermissionDatabaseSeeder
-    ```
-
-2. Access the Admin Role Permission manager from your admin dashboard.
+---
 
 ## Usage
 
@@ -101,13 +100,28 @@ if ($admin->hasPermission('edit_posts')) {
 | DELETE | `/admin/permissions/{id}` | Delete permission |
 | POST   | `/admin/updateStatus` | Update permission status |
 
-## Database Structure
+---
+
+## Protecting Admin Routes
+
+Protect your routes using the provided middleware:
+
+```php
+Route::middleware(['web','admin.auth'])->group(function () {
+    // Admin role permissions routes here
+});
+```
+---
+
+## Database Tables
 
 - `roles` - Stores role information
 - `permissions` - Stores permission information  
 - `role_admin` - Pivot table linking roles to admins
 - `permission_role` - Pivot table linking permissions to roles
 
+---
+
 ## License
 
-This package is open-sourced software licensed under the [MIT license](LICENSE).write code in the readme.md file regarding to the admin/role-permission manager
+This package is open-sourced software licensed under the MIT license.
