@@ -89,7 +89,16 @@ class AdminPermissionSeeder extends Seeder
             ['name' => 'Settings Manager Delete', 'slug' => 'settings_manager_delete'],
 
             // SEO Manager
-            ['name' => 'SEO Manager List', 'slug' => 'seo_manager_list']
+            ['name' => 'SEO Manager List', 'slug' => 'seo_manager_list'],
+
+            // Enquiry Manager
+            'Enquiry Manager' => [
+                ['name' => 'Enquiry Manager List', 'slug' => 'enquiry_manager_list'],
+                ['name' => 'Enquiry Manager View', 'slug' => 'enquiry_manager_view'],
+                ['name' => 'Enquiry Manager Edit', 'slug' => 'enquiry_manager_edit'],
+                ['name' => 'Enquiry Manager Delete', 'slug' => 'enquiry_manager_delete'],
+                ['name' => 'Enquiry Manager Reply', 'slug' => 'enquiry_manager_reply'],
+            ],
         ];
 
         collect($permissions)->each(function ($perm) {
