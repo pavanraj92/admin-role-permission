@@ -82,13 +82,15 @@ class AdminPermissionSeeder extends Seeder
             ['name' => 'Banners Manager Delete', 'slug' => 'banners_manager_delete'],
 
             // Settings Manager
+            ['name' => 'Settings Manager', 'slug' => 'settings_manager'],
             ['name' => 'Settings Manager List', 'slug' => 'settings_manager_list'],
             ['name' => 'Settings Manager Create', 'slug' => 'settings_manager_create'],
             ['name' => 'Settings Manager View', 'slug' => 'settings_manager_view'],
             ['name' => 'Settings Manager Edit', 'slug' => 'settings_manager_edit'],
             ['name' => 'Settings Manager Delete', 'slug' => 'settings_manager_delete'],
+            ['name' => 'Logo/Favicon Manager View', 'slug' => 'logo_favicon_manager_view'],
 
-            // SEO Manager
+            // SEO Manager 
             ['name' => 'SEO Manager List', 'slug' => 'seo_manager_list'],
 
             // Enquiry Manager
@@ -99,6 +101,24 @@ class AdminPermissionSeeder extends Seeder
                 ['name' => 'Enquiry Manager Delete', 'slug' => 'enquiry_manager_delete'],
                 ['name' => 'Enquiry Manager Reply', 'slug' => 'enquiry_manager_reply'],
             ],
+
+            ['name' => 'Brand Manager List', 'slug' => 'brands_manager_list'],
+            ['name' => 'Brand Manager Create', 'slug' => 'brands_manager_create'],
+            ['name' => 'Brand Manager View', 'slug' => 'brands_manager_view'],
+            ['name' => 'Brand Manager Edit', 'slug' => 'brands_manager_edit'],
+            ['name' => 'Brand Manager Delete', 'slug' => 'brands_manager_delete'],
+
+            // Tag Manager
+            ['name' => 'Tag Manager List', 'slug' => 'tags_manager_list'],
+            ['name' => 'Tag Manager Create', 'slug' => 'tags_manager_create'],
+            ['name' => 'Tag Manager View', 'slug' => 'tags_manager_view'],
+            ['name' => 'Tag Manager Edit', 'slug' => 'tags_manager_edit'],
+            ['name' => 'Tag Manager Delete', 'slug' => 'tags_manager_delete'],
+
+            // Rating Manager
+            ['name' => 'Rating Manager List', 'slug' => 'ratings_manager_list'],
+            ['name' => 'Rating Manager View', 'slug' => 'ratings_manager_view'],
+            ['name' => 'Rating Manager Delete', 'slug' => 'ratings_manager_delete'],
         ];
 
         collect($permissions)->each(function ($perm) {
