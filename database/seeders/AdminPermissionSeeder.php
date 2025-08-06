@@ -129,6 +129,10 @@ class AdminPermissionSeeder extends Seeder
                 ['name' => 'Product Manager Delete', 'slug' => 'products_manager_delete'],
                 ['name' => 'Product Manager Reply', 'slug' => 'products_manager_reply'],
             ],
+
+            // Product Order Manager
+            ['name' => 'Product Order Manager List', 'slug' => 'product_orders_manager_list'],
+            ['name' => 'Product Order Manager View', 'slug' => 'product_orders_manager_view'],
         ];
 
         collect($permissions)->each(function ($perm) {
