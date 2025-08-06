@@ -94,13 +94,11 @@ class AdminPermissionSeeder extends Seeder
             ['name' => 'SEO Manager List', 'slug' => 'seo_manager_list'],
 
             // Enquiry Manager
-            'Enquiry Manager' => [
-                ['name' => 'Enquiry Manager List', 'slug' => 'enquiry_manager_list'],
-                ['name' => 'Enquiry Manager View', 'slug' => 'enquiry_manager_view'],
-                ['name' => 'Enquiry Manager Edit', 'slug' => 'enquiry_manager_edit'],
-                ['name' => 'Enquiry Manager Delete', 'slug' => 'enquiry_manager_delete'],
-                ['name' => 'Enquiry Manager Reply', 'slug' => 'enquiry_manager_reply'],
-            ],
+            ['name' => 'Enquiry Manager List', 'slug' => 'enquiry_manager_list'],
+            ['name' => 'Enquiry Manager View', 'slug' => 'enquiry_manager_view'],
+            ['name' => 'Enquiry Manager Edit', 'slug' => 'enquiry_manager_edit'],
+            ['name' => 'Enquiry Manager Delete', 'slug' => 'enquiry_manager_delete'],
+            ['name' => 'Enquiry Manager Reply', 'slug' => 'enquiry_manager_reply'],
 
             // Brand Manager
             ['name' => 'Brand Manager List', 'slug' => 'brands_manager_list'],
@@ -120,15 +118,26 @@ class AdminPermissionSeeder extends Seeder
             ['name' => 'Rating Manager List', 'slug' => 'ratings_manager_list'],
             ['name' => 'Rating Manager View', 'slug' => 'ratings_manager_view'],
             ['name' => 'Rating Manager Delete', 'slug' => 'ratings_manager_delete'],
-            
-            // Product Manager
-            'Product Manager' => [
-                ['name' => 'Product Manager List', 'slug' => 'products_manager_list'],
-                ['name' => 'Product Manager View', 'slug' => 'products_manager_view'],
-                ['name' => 'Product Manager Edit', 'slug' => 'products_manager_edit'],
-                ['name' => 'Product Manager Delete', 'slug' => 'products_manager_delete'],
-                ['name' => 'Product Manager Reply', 'slug' => 'products_manager_reply'],
-            ],
+
+            // Course Manager
+            ['name' => 'Course Manager List', 'slug' => 'courses_manager_list'],
+            ['name' => 'Course Manager Create', 'slug' => 'courses_manager_create'],
+            ['name' => 'Course Manager View', 'slug' => 'courses_manager_edit'],
+            ['name' => 'Course Manager Edit', 'slug' => 'courses_manager_view'],
+            ['name' => 'Course Manager Delete', 'slug' => 'courses_manager_delete'],
+
+            ['name' => 'Product Manager List', 'slug' => 'products_manager_list'],
+            ['name' => 'Product Manager View', 'slug' => 'products_manager_view'],
+            ['name' => 'Product Manager Edit', 'slug' => 'products_manager_edit'],
+            ['name' => 'Product Manager Delete', 'slug' => 'products_manager_delete'],
+            ['name' => 'Product Manager Reply', 'slug' => 'products_manager_reply'],
+
+            // Lecture Manager
+            ['name' => 'Lecture Manager List', 'slug' => 'lectures_manager_list'],
+            ['name' => 'Lecture Manager Create', 'slug' => 'lectures_manager_create'],
+            ['name' => 'Lecture Manager View', 'slug' => 'lectures_manager_view'],
+            ['name' => 'Lecture Manager Edit', 'slug' => 'lectures_manager_edit'],
+            ['name' => 'Lecture Manager Delete', 'slug' => 'lectures_manager_delete'],
         ];
 
         collect($permissions)->each(function ($perm) {
