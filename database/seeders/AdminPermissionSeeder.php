@@ -138,6 +138,10 @@ class AdminPermissionSeeder extends Seeder
             ['name' => 'Lecture Manager View', 'slug' => 'lectures_manager_view'],
             ['name' => 'Lecture Manager Edit', 'slug' => 'lectures_manager_edit'],
             ['name' => 'Lecture Manager Delete', 'slug' => 'lectures_manager_delete'],
+
+            // Product Order Manager
+            ['name' => 'Product Order Manager List', 'slug' => 'product_orders_manager_list'],
+            ['name' => 'Product Order Manager View', 'slug' => 'product_orders_manager_view']
         ];
 
         collect($permissions)->each(function ($perm) {
