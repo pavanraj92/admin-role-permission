@@ -141,7 +141,53 @@ class AdminPermissionSeeder extends Seeder
 
             // Product Order Manager
             ['name' => 'Product Order Manager List', 'slug' => 'product_orders_manager_list'],
-            ['name' => 'Product Order Manager View', 'slug' => 'product_orders_manager_view']
+            ['name' => 'Product Order Manager View', 'slug' => 'product_orders_manager_view'],
+
+            // product Coupon Manager
+            ['name' => 'Product Coupon Manager List', 'slug' => 'product_coupons_manager_list'],
+            ['name' => 'Product Coupon Manager Create', 'slug' => 'product_coupons_manager_create'],
+            ['name' => 'Product Coupon Manager View', 'slug' => 'product_coupons_manager_view'],
+            ['name' => 'Product Coupon Manager Edit', 'slug' => 'product_coupons_manager_edit'],
+            ['name' => 'Product Coupon Manager Delete', 'slug' => 'product_coupons_manager_delete'],
+
+            // Commission Manager
+            ['name' => 'Commission Manager List', 'slug' => 'commissions_manager_list'],
+            ['name' => 'Commission Manager Create', 'slug' => 'commissions_manager_create'],
+            ['name' => 'Commission Manager View', 'slug' => 'commissions_manager_view'],
+            ['name' => 'Commission Manager Edit', 'slug' => 'commissions_manager_edit'],
+            ['name' => 'Commission Manager Delete', 'slug' => 'commissions_manager_delete'],
+
+            ['name' => 'Shipping Methods Manager List', 'slug' => 'shipping_methods_manager_list'],
+            ['name' => 'Shipping Methods Manager Create', 'slug' => 'shipping_methods_manager_create'],
+            ['name' => 'Shipping Methods Manager View', 'slug' => 'shipping_methods_manager_view'],
+            ['name' => 'Shipping Methods Manager Edit', 'slug' => 'shipping_methods_manager_edit'],
+            ['name' => 'Shipping Methods Manager Delete', 'slug' => 'shipping_methods_manager_delete'],
+
+            ['name' => 'Shipping Rates Manager List', 'slug' => 'shipping_rates_manager_list'],
+            ['name' => 'Shipping Rates Manager Create', 'slug' => 'shipping_rates_manager_create'],
+            ['name' => 'Shipping Rates Manager View', 'slug' => 'shipping_rates_manager_view'],
+            ['name' => 'Shipping Rates Manager Edit', 'slug' => 'shipping_rates_manager_edit'],
+            ['name' => 'Shipping Rates Manager Delete', 'slug' => 'shipping_rates_manager_delete'],
+
+            ['name' => 'Quiz Manager List', 'slug' => 'quizzes_manager_list'],
+            ['name' => 'Quiz Manager Create', 'slug' => 'quizzes_manager_create'],
+            ['name' => 'Quiz Manager View', 'slug' => 'quizzes_manager_view'],
+            ['name' => 'Quiz Manager Edit', 'slug' => 'quizzes_manager_edit'],
+            ['name' => 'Quiz Manager Delete', 'slug' => 'quizzes_manager_delete'],
+
+            ['name' => 'Transaction Manager List', 'slug' => 'transactions_manager_list'],
+            ['name' => 'Transaction Manager View', 'slug' => 'transactions_manager_view'],
+
+            ['name' => 'Course Purchase Manager List', 'slug' => 'course_purchases_manager_list'],
+            ['name' => 'Course Purchase Manager View', 'slug' => 'course_purchases_manager_view'],
+
+            ['name' => 'Report Manager List', 'slug' => 'report_manager_list'],
+            ['name' => 'Report Manager View', 'slug' => 'report_manager_view'],
+
+            ['name' => 'Return Refund Manager List', 'slug' => 'return_refunds_manager_list'],
+            ['name' => 'Return Refund Manager  View', 'slug' => 'return_refunds_manager_view'],
+
+
         ];
 
         collect($permissions)->each(function ($perm) {
