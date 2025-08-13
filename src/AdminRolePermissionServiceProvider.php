@@ -81,6 +81,7 @@ class AdminRolePermissionServiceProvider extends ServiceProvider
     {
         $this->publishes([
             __DIR__ . '/../database/migrations' => base_path('Modules/AdminRolePermissions/database/migrations'),
+            __DIR__ . '/../database/seeders'    => base_path('Modules/AdminRolePermissions/database/seeders'),
             __DIR__ . '/../resources/views'     => base_path('Modules/AdminRolePermissions/resources/views/'),
             __DIR__ . '/../config/'             => base_path('Modules/AdminRolePermissions/config/'),
         ], 'admin_role_permissions');

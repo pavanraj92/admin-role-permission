@@ -202,6 +202,9 @@ class AdminPermissionSeeder extends Seeder
             ['name' => 'Return Refund Manager List', 'slug' => 'return_refunds_manager_list'],
             ['name' => 'Return Refund Manager  View', 'slug' => 'return_refunds_manager_view'],
 
+            // Wishlist Manager
+            ['name' => 'Wishlist Manager List', 'slug' => 'wishlists_manager_list'],
+            ['name' => 'Wishlist Manager View', 'slug' => 'wishlists_manager_view'],
 
         ];
 
