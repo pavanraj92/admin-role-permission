@@ -10,6 +10,7 @@ use admin\admin_role_permissions\Requests\Role\UpdateRoleRequest;
 use admin\admin_role_permissions\Models\Permission;
 use admin\admin_role_permissions\Models\Role;
 use admin\admin_auth\Models\Admin;
+use Illuminate\Support\Facades\Schema;
 
 class AdminRoleController extends Controller
 {
@@ -125,12 +126,17 @@ class AdminRoleController extends Controller
     {
         DB::beginTransaction();
         try {
-            // Check if any admin has this role assigned
-            $assignedAdmins = DB::table('role_admin')
-                ->where('role_id', $role->id)
-                ->count();
-            if ($assignedAdmins > 0) {
-                return response()->json(['error' => true, 'message' => 'Sorry, you cannot delete because this role is associated with one or more admins.']);
+            if (Schema::hasTable('role_admin')) {
+                $isAssigned =  DB::table('role_admin')
+                    ->where('role_id', $role->id)
+                    ->count();
+
+                if ($isAssigned > 0) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'Sorry, you cannot delete because this role is associated with one or more admins.'
+                    ], 400);
+                }
             }
 
             // If not assigned, delete
