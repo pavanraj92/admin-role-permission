@@ -13,6 +13,7 @@ return new class extends Migration {
             $table->string('slug')->nullable()->unique();
             $table->boolean('status')->default(1);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

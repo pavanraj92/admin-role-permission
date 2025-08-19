@@ -1,7 +1,6 @@
 @extends('admin::admin.layouts.master')
 
 @section('title', 'Roles Management')
-
 @section('page-title', 'Role Details')
 
 @section('breadcrumb')
@@ -22,12 +21,12 @@
                             <tbody>
                                 <tr>
                                     <th scope="row">Name</th>
-                                    <td scope="col">{{ $role->name ?? 'N/A' }}</td>
+                                    <td scope="col">{{ $role?->name ?? 'N/A' }}</td>
                                 </tr>
                                 <tr>
                                     <th scope="row">Created At</th>
                                     <td scope="col">
-                                        {{ $role->created_at
+                                        {{ $role?->created_at
                                             ? $role->created_at->format(config('GET.admin_date_time_format') ?? 'Y-m-d H:i:s')
                                             : '—' }}
                                     </td>
@@ -35,19 +34,17 @@
                                 <tr>
                                     <th>Assigned Permissions</th>
                                     <td>
-                                        @if($role->permissions && $role->permissions->count())
                                         <div class="row">
-                                            @foreach($role->permissions as $permission)
+                                            @forelse($role?->permissions as $permission)
                                             <div class="col-md-3 mb-2">
                                                 <span class="badge bg-secondary text-white p-2">
                                                     {{ ucfirst(str_replace('_', ' ', $permission->name)) }}
                                                 </span>
                                             </div>
-                                            @endforeach
+                                            @empty
+                                            <span class="text-muted">No permissions assigned</span>
+                                            @endforelse
                                         </div>
-                                        @else
-                                        <span class="text-muted">No permissions assigned</span>
-                                        @endif
                                     </td>
                                 </tr>
                             </tbody>

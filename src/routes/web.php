@@ -6,8 +6,8 @@ use admin\admin_role_permissions\Controllers\AdminPermissionController;
 
 Route::prefix('')->name('admin.')->middleware(['web', 'admin.auth'])->group(function () {
     Route::resource('roles', AdminRoleController::class);
-
     Route::resource('permissions', AdminPermissionController::class);
+
     Route::post('updateStatus', [AdminPermissionController::class, 'updateStatus'])->name('updateStatus');
 
     // Assign Permissions to Role

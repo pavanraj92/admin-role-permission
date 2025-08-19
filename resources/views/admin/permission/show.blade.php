@@ -1,7 +1,6 @@
 @extends('admin::admin.layouts.master')
 
 @section('title', 'Permissions Management')
-
 @section('page-title', 'Permission Details')
 
 @section('breadcrumb')
@@ -22,17 +21,15 @@
                             <tbody>
                                 <tr>
                                     <th scope="row">Name</th>
-                                    <td scope="col">{{ $permission->name ?? 'N/A' }}</td>
+                                    <td scope="col">{{ $permission?->name ?? 'N/A' }}</td>
                                 </tr>
                                 <tr>
                                     <th scope="row">Slug</th>
-                                    <td scope="col">{{ $permission->slug ?? 'N/A' }}</td>
+                                    <td scope="col">{{ $permission?->slug ?? 'N/A' }}</td>
                                 </tr>
                                 <tr>
                                     <th scope="row">Created At</th>
-                                    <td scope="col"> {{ $permission->created_at
-                                                        ? $permission->created_at->format(config('GET.admin_date_time_format') ?? 'Y-m-d H:i:s')
-                                                        : '—' }}</td>
+                                    <td scope="col"> {{ $permission?->created_at ? $permission->created_at->format(config('GET.admin_date_time_format') ?? 'Y-m-d H:i:s') : '—' }}</td>
                                 </tr>
                             </tbody>
                         </table>

@@ -16,8 +16,15 @@ class StoreRoleRequest extends FormRequest
      */
     protected function prepareForValidation(): void
     {
+        $name = trim($this->input('name'));
+
+        if ($name) {
+            // Convert to lowercase first, then capitalize each word
+            $name = ucwords(strtolower($name));
+        }
+
         $this->merge([
-            'name' => trim($this->input('name')),
+            'name' => $name,
         ]);
     }
 
@@ -27,16 +34,22 @@ class StoreRoleRequest extends FormRequest
             'name' => [
                 'required',
                 'string',
+                'min:3',
                 'max:50',
                 'unique:roles,name',
-                'regex:/^(?:[A-Za-z]+(?: [A-Za-z]+)*){3,}$/',
+                'regex:/^[A-Za-z]+(?: [A-Za-z]+)*$/', // only letters + single spaces
             ],
         ];
     }
     public function messages(): array
     {
         return [
-            'name.regex' => 'The name must contain at least 3 alphabetic characters and may only contain letters and single spaces.',
+            'name.required' => 'The role name is required.',
+            'name.string'   => 'The role name must be a valid string.',
+            'name.min'      => 'The role name must be at least 3 characters.',
+            'name.max'      => 'The role name may not be greater than 50 characters.',
+            'name.unique'   => 'This role name already exists.',
+            'name.regex'    => 'The role name may only contain letters and single spaces.',
         ];
     }
 }

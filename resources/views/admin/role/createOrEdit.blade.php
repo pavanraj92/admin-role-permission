@@ -1,11 +1,10 @@
 @extends('admin::admin.layouts.master')
 
-@section('title', 'Roles Management')
-
+@section('title', 'Role Management')
 @section('page-title', (isset($role) ? 'Edit' : 'Create') . ' Role')
 
 @section('breadcrumb')
-<li class="breadcrumb-item active" aria-current="page"><a href="{{ route('admin.roles.index') }}">Roles Manager</a></li>
+<li class="breadcrumb-item active" aria-current="page"><a href="{{ route('admin.roles.index') }}">Role Manager</a></li>
 <li class="breadcrumb-item active" aria-current="page">{{isset($role) ? 'Edit' : 'Create'}} Role</li>
 @endsection
 
@@ -25,7 +24,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Name<span class="text-danger">*</span></label>
-                                <input type="text" name="name" class="form-control"
+                                <input type="text" name="name" class="form-control" placeholder="Enter Name"
                                     value="{{ $role?->name ?? old('name') }}" required>
                                 @error('name')
                                 <div class="text-danger validation-error">{{ $message }}</div>
@@ -45,44 +44,6 @@
 </div>
 @endsection
 
-@push('styles')
-<!-- Custom CSS for the page -->
-<link rel="stylesheet" href="{{ asset('backend/custom.css') }}">
-@endpush
-
 @push('scripts')
-<!-- Then the jQuery Validation plugin -->
-<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
-
-
-<script>
-    $(document).ready(function() {
-
-        //jquery validation for the form
-        $('#roleForm').validate({
-            ignore: [],
-            rules: {
-                name: {
-                    required: true,
-                    minlength: 3
-                }
-            },
-            messages: {
-                name: {
-                    required: "Please enter a name",
-                    minlength: "Name must be at least 3 characters long"
-                }
-            },
-            submitHandler: function(form) {
-                form.submit();
-            },
-            errorElement: 'div',
-            errorClass: 'text-danger custom-error',
-            errorPlacement: function(error, element) {
-                $('.validation-error').hide();
-                error.insertAfter(element);
-            }
-        });
-    });
-</script>
+    @include('admin_role_permissions::admin.role.partials.script')
 @endpush

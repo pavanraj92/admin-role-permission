@@ -1,11 +1,10 @@
 @extends('admin::admin.layouts.master')
 
-@section('title', 'Permissions Management')
-
-@section('page-title', 'Permissions Manager')
+@section('title', 'Permission Management')
+@section('page-title', 'Permission Manager')
 
 @section('breadcrumb')
-<li class="breadcrumb-item active" aria-current="page">Permissions Manager</li>
+<li class="breadcrumb-item active" aria-current="page">Permission Manager</li>
 @endsection
 
 @section('content')
@@ -14,27 +13,7 @@
     <!-- Start Permission Content -->
     <div class="row">
         <div class="col-12">
-            <div class="card card-body">
-                <h4 class="card-title">Filter</h4>
-                <form action="{{ route('admin.permissions.index') }}" method="GET" id="filterForm">
-                    <div class="row">
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="title">Keyword</label>
-                                <input type="text" name="keyword" id="keyword" class="form-control"
-                                    value="{{ app('request')->query('keyword') }}" placeholder="Enter name">
-                            </div>
-                        </div>
-                        <div class="col-auto mt-1 text-right">
-                            <div class="form-group">
-                                <label for="created_at">&nbsp;</label>
-                                <button type="submit" form="filterForm" class="btn btn-primary mt-4">Filter</button>
-                                <a href="{{ route('admin.permissions.index') }}" class="btn btn-secondary mt-4">Reset</a>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
+            @include('admin_role_permissions::admin.permission.partials.filter')
         </div>
     </div>
     <div class="row">
@@ -51,26 +30,21 @@
                         <table class="table">
                             <thead class="thead-light">
                                 <tr>
-                                    <th scope="col">S. No.</th>
-                                    <th scope="col">@sortablelink('name', 'Name', [], ['class' => 'text-dark']) </th>
-                                    <th scope="col">@sortablelink('slug', 'Slug', [], ['class' => 'text-dark']) </th>
-                                    <th scope="col">@sortablelink('status', 'Status', [], ['class' => 'text-dark']) </th>
-                                    <th scope="col">@sortablelink('created_at', 'Created At', [], ['class' => 'text-dark']) </th>
-                                    <th scope="col">Action</th>
+                                    <th>S. No.</th>
+                                    <th>@sortablelink('name', 'Name', [], ['class' => 'text-dark']) </th>
+                                    <th>@sortablelink('slug', 'Slug', [], ['class' => 'text-dark']) </th>
+                                    <th>@sortablelink('status', 'Status', [], ['class' => 'text-dark']) </th>
+                                    <th>@sortablelink('created_at', 'Created At', [], ['class' => 'text-dark']) </th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @if (isset($permissions) && $permissions->count() > 0)
-                                @php
-                                $i = ($permissions->currentpage() - 1) * $permissions->perpage() + 1;
-                                @endphp
-                                @foreach ($permissions as $permission)
+                                @forelse ($permissions as $permission)
                                 <tr>
-                                    <th scope="row">{{ $i }}</th>
-                                    <td>{{ $permission->name }}</td>
-                                    <td>{{ $permission->slug }}</td>
+                                    <td scope="row">{{ ($permissions->currentPage() - 1) * $permissions->perPage() + $loop->iteration }}</td>
+                                    <td>{{ $permission?->name ?? 'N/A' }}</td>
+                                    <td>{{ $permission?->slug ?? 'N/A' }}</td>
                                     <td>
-                                        <!-- create update status functionality-->
                                         @php
                                         $isActive = $permission->status == '1';
                                         $nextStatus = $isActive ? '0' : '1';
@@ -90,11 +64,7 @@
                                             {{ $label }}
                                         </a>
                                     </td>
-                                    <td>
-                                        {{ $permission->created_at
-                                            ? $permission->created_at->format(config('GET.admin_date_time_format') ?? 'Y-m-d H:i:s')
-                                            : '—' }}
-                                    </td>
+                                    <td>{{ $permission?->created_at ? $permission->created_at->format(config('GET.admin_date_time_format') ?? 'Y-m-d H:i:s') : '—' }}</td>
                                     <td style="width: 10%;">
                                         @admincan('permission_manager_view')
                                         <a href="{{ route('admin.permissions.show', $permission) }}"
@@ -110,45 +80,24 @@
                                             title="Edit this record"
                                             class="btn btn-success btn-sm"><i class="mdi mdi-pencil"></i></a>
                                         @endadmincan
-                                        {{--
-                                            @admincan('permission_manager_delete')
-                                            <a href="javascript:void(0)"
-                                            data-toggle="tooltip"
-                                            data-placement="top"
-                                            title="Delete this record"
-                                            data-url="{{ route('admin.permissions.destroy', $permission) }}"
-                                        data-text="Are you sure you want to delete this record?"
-                                        data-method="DELETE"
-                                        @endif
-                                        class="btn btn-danger btn-sm delete-record"><i class="mdi mdi-delete"></i></a> @endadmincan
-                                        --}}
                                     </td>
                                 </tr>
-                                @php
-                                $i++;
-                                @endphp
-                                @endforeach
-                                @else
+                                @empty
                                 <tr>
                                     <td colspan="4" class="text-center">No records found.</td>
                                 </tr>
-                                @endif
+                                @endforelse
                             </tbody>
                         </table>
 
-                        <!--pagination move the right side-->
+                        <!-- pagination move the right side -->
                         @if ($permissions->count() > 0)
                         {{ $permissions->links('admin::pagination.custom-admin-pagination') }}
                         @endif
-
                     </div>
                 </div>
             </div>
         </div>
-
-
     </div>
-    <!-- End permission Content -->
 </div>
-<!-- End Container fluid  -->
 @endsection
