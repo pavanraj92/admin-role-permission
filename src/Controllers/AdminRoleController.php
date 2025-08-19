@@ -125,6 +125,15 @@ class AdminRoleController extends Controller
     {
         DB::beginTransaction();
         try {
+            // Check if any admin has this role assigned
+            $assignedAdmins = DB::table('role_admin')
+                ->where('role_id', $role->id)
+                ->count();
+            if ($assignedAdmins > 0) {
+                return response()->json(['error' => true, 'message' => 'Sorry, you cannot delete because this role is associated with one or more admins.']);
+            }
+
+            // If not assigned, delete
             $role->delete();
             DB::commit();
             return response()->json(['success' => true, 'message' => 'Record deleted successfully.']);

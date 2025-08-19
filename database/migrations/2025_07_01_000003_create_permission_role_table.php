@@ -14,6 +14,7 @@ return new class extends Migration {
             $table->boolean('status')->default(1);
             $table->unique(['permission_id', 'role_id']);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

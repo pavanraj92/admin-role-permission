@@ -5,12 +5,12 @@ namespace admin\admin_role_permissions\Models;
 use Illuminate\Database\Eloquent\Model;
 use admin\admin_auth\Models\Admin;
 use admin\admin_role_permissions\Models\Permission;
-
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Kyslik\ColumnSortable\Sortable;
 
 class Role extends Model
 {
-    use Sortable;
+    use Sortable, SoftDeletes;
     protected $fillable = [
         'name',
         'status'

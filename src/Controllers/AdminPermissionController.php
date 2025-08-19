@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\DB;
 use admin\admin_role_permissions\Requests\Permission\StorePermissionRequest;
 use admin\admin_role_permissions\Requests\Permission\UpdatePermissionRequest;
 use admin\admin_role_permissions\Models\Permission;
-use admin\admin_role_permissions\Models\Role;
 use admin\admin_auth\Models\Admin;
 
 class AdminPermissionController extends Controller

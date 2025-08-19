@@ -1,56 +1,24 @@
 @extends('admin::admin.layouts.master')
 
 @section('title', 'Roles Management')
-
-@section('page-title', 'Roles Manager')
+@section('page-title', 'Role Manager')
 
 @push('styles')
-<!-- Select2 CSS -->
-<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-<style>
-    .select2-results__option,
-    .select2-selection__choice,
-    .select2-selection__rendered {
-        text-transform: capitalize;
-    }
-</style>
+    @include('admin_role_permissions::admin.role.partials.style')
 @endpush
 
 @section('breadcrumb')
-<li class="breadcrumb-item active" aria-current="page"> Roles Manager</li>
+<li class="breadcrumb-item active" aria-current="page"> Role Manager</li>
 @endsection
 
-
-
 @section('content')
-<!-- Container fluid  -->
 <div class="container-fluid">
-    <!-- Start Role Content -->
     <div class="row">
         <div class="col-12">
-            <div class="card card-body">
-                <h4 class="card-title">Filter</h4>
-                <form action="{{ route('admin.roles.index') }}" method="GET" id="filterForm">
-                    <div class="row">
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="title">Keyword</label>
-                                <input type="text" name="keyword" id="keyword" class="form-control"
-                                    value="{{ app('request')->query('keyword') }}" placeholder="Enter name">
-                            </div>
-                        </div>
-                        <div class="col-auto mt-1 text-right">
-                            <div class="form-group">
-                                <label for="created_at">&nbsp;</label>
-                                <button type="submit" form="filterForm" class="btn btn-primary mt-4">Filter</button>
-                                <a href="{{ route('admin.roles.index') }}" class="btn btn-secondary mt-4">Reset</a>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
+            @include('admin_role_permissions::admin.role.partials.filter')
         </div>
     </div>
+
     <div class="row">
         <div class="col-12">
             <div class="card">
@@ -65,26 +33,18 @@
                         <table class="table">
                             <thead class="thead-light">
                                 <tr>
-                                    <th scope="col">S. No.</th>
-                                    <th scope="col">@sortablelink('name', 'Name', [], ['class' => 'text-dark']) </th>
-                                    <th scope="col">@sortablelink('created_at', 'Created At', [], ['class' => 'text-dark']) </th>
-                                    <th scope="col">Action</th>
-
+                                    <th>S. No.</th>
+                                    <th>@sortablelink('name', 'Name', [], ['class' => 'text-dark']) </th>
+                                    <th>@sortablelink('created_at', 'Created At', [], ['class' => 'text-dark']) </th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @if (isset($roles) && $roles->count() > 0)
-                                @php
-                                $i = ($roles->currentpage() - 1) * $roles->perpage() + 1;
-                                @endphp
-                                @foreach ($roles as $role)
+                                @forelse ($roles as $role)
                                 <tr>
-                                    <th scope="row">{{ $i }}</th>
-                                    <td>{{ $role->name }}</td>
-                                    <td>
-                                        {{ $role->created_at
-                                            ? $role->created_at->format(config('GET.admin_date_time_format') ?? 'Y-m-d H:i:s')
-                                            : '—' }}
+                                    <th scope="row">{{ ($roles->currentPage() - 1) * $roles->perPage() + $loop->iteration }}</th>
+                                    <td>{{ $role?->name ?? 'N/A'  }}</td>
+                                    <td>{{ $role?->created_at ? $role->created_at->format(config('GET.admin_date_time_format') ?? 'Y-m-d H:i:s') : '—' }}
                                     </td>
                                     <td style="width: 20%;">
                                         @php
@@ -153,31 +113,22 @@
                                         @endif
                                     </td>
                                 </tr>
-                                @php
-                                $i++;
-                                @endphp
-                                @endforeach
-                                @else
+                                @empty
                                 <tr>
                                     <td colspan="4" class="text-center">No records found.</td>
                                 </tr>
-                                @endif
+                                @endforelse
                             </tbody>
                         </table>
-                        <!--pagination move the right side-->
                         @if ($roles->count() > 0)
                         {{ $roles->links('admin::pagination.custom-admin-pagination') }}
                         @endif
-
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <!-- End role Content -->
 </div>
-<!-- End Container fluid  -->
-
 
 <!-- dynamic modal -->
 @include('admin_role_permissions::admin.components.global.dynamic-modal')

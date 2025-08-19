@@ -15,6 +15,7 @@ return new class extends Migration {
                 $table->boolean('status')->default(1);
                 $table->unique(['role_id', 'admin_id']);
                 $table->timestamps();
+                $table->softDeletes();
             });
         }
     }
