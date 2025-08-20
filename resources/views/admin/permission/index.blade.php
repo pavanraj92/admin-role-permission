@@ -13,7 +13,27 @@
     <!-- Start Permission Content -->
     <div class="row">
         <div class="col-12">
-            @include('admin_role_permissions::admin.permission.partials.filter')
+            <div class="card card-body">
+                <h4 class="card-title">Filter</h4>
+                <form action="{{ route('admin.permissions.index') }}" method="GET" id="filterForm">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="title">Keyword</label>
+                                <input type="text" name="keyword" id="keyword" class="form-control"
+                                    value="{{ app('request')->query('keyword') }}" placeholder="Enter name">
+                            </div>
+                        </div>
+                        <div class="col-auto mt-1 text-right">
+                            <div class="form-group">
+                                <label for="created_at">&nbsp;</label>
+                                <button type="submit" form="filterForm" class="btn btn-primary mt-4">Filter</button>
+                                <a href="{{ route('admin.permissions.index') }}" class="btn btn-secondary mt-4">Reset</a>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
     <div class="row">
@@ -73,18 +93,11 @@
                                             title="View this record"
                                             class="btn btn-warning btn-sm"><i class="mdi mdi-eye"></i></a>
                                         @endadmincan
-                                        @admincan('permission_manager_edit')
-                                        <a href="{{ route('admin.permissions.edit', $permission) }}"
-                                            data-toggle="tooltip"
-                                            data-placement="top"
-                                            title="Edit this record"
-                                            class="btn btn-success btn-sm"><i class="mdi mdi-pencil"></i></a>
-                                        @endadmincan
                                     </td>
                                 </tr>
                                 @empty
                                 <tr>
-                                    <td colspan="4" class="text-center">No records found.</td>
+                                    <td colspan="6" class="text-center">No records found.</td>
                                 </tr>
                                 @endforelse
                             </tbody>
