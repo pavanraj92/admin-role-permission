@@ -38,7 +38,7 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="font-weight-bold">Role Name:</label>
-                                                <p><strong>{{ $role?->name ?? 'N/A' }}</strong></p>
+                                                <p>{{ $role?->name ?? 'N/A' }}</p>
                                             </div>
                                         </div>
 
