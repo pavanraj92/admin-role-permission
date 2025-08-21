@@ -46,6 +46,13 @@ class AdminPermissionSeeder extends Seeder
             ['name' => 'Users Manager Edit', 'slug' => 'users_manager_edit'],
             ['name' => 'Users Manager Delete', 'slug' => 'users_manager_delete'],
 
+            // Users Role Manager
+            ['name' => 'User Role Manager List', 'slug' => 'user_roles_manager_list'],
+            ['name' => 'User Role Manager Create', 'slug' => 'user_roles_manager_create'],
+            ['name' => 'User Role Manager View', 'slug' => 'user_roles_manager_view'],
+            ['name' => 'User Role Manager Edit', 'slug' => 'user_roles_manager_edit'],
+            ['name' => 'User Role Manager Delete', 'slug' => 'user_roles_manager_delete'],
+
             // Categories Manager
             ['name' => 'Categories Manager List', 'slug' => 'categories_manager_list'],
             ['name' => 'Categories Manager Create', 'slug' => 'categories_manager_create'],
@@ -159,23 +166,37 @@ class AdminPermissionSeeder extends Seeder
             ['name' => 'Quiz Manager Edit', 'slug' => 'quizzes_manager_edit'],
             ['name' => 'Quiz Manager Delete', 'slug' => 'quizzes_manager_delete'],
 
+            // Question Manager
+            ['name' => 'Question Manager List', 'slug' => 'questions_manager_list'],
+            ['name' => 'Question Manager Create', 'slug' => 'questions_manager_create'],
+            ['name' => 'Question Manager View', 'slug' => 'questions_manager_view'],
+            ['name' => 'Question Manager Edit', 'slug' => 'questions_manager_edit'],
+            ['name' => 'Question Manager Delete', 'slug' => 'questions_manager_delete'],
+
+            // Answer Manager
+            ['name' => 'Answer Manager List', 'slug' => 'answers_manager_list'],
+            ['name' => 'Answer Manager Create', 'slug' => 'answers_manager_create'],
+            ['name' => 'Answer Manager View', 'slug' => 'answers_manager_view'],
+            ['name' => 'Answer Manager Edit', 'slug' => 'answers_manager_edit'],
+            ['name' => 'Answer Manager Delete', 'slug' => 'answers_manager_delete'],
+
             // Product Manager
             ['name' => 'Product Manager List', 'slug' => 'products_manager_list'],
             ['name' => 'Product Manager View', 'slug' => 'products_manager_view'],
             ['name' => 'Product Manager Edit', 'slug' => 'products_manager_edit'],
             ['name' => 'Product Manager Delete', 'slug' => 'products_manager_delete'],
-            ['name' => 'Product Manager Reply', 'slug' => 'products_manager_reply'],
+            ['name' => 'Product Manager Create', 'slug' => 'products_manager_create'],
 
             // Product Order Manager
             ['name' => 'Product Order Manager List', 'slug' => 'product_orders_manager_list'],
             ['name' => 'Product Order Manager View', 'slug' => 'product_orders_manager_view'],
 
-            // product Coupon Manager
-            ['name' => 'Product Coupon Manager List', 'slug' => 'product_coupons_manager_list'],
-            ['name' => 'Product Coupon Manager Create', 'slug' => 'product_coupons_manager_create'],
-            ['name' => 'Product Coupon Manager View', 'slug' => 'product_coupons_manager_view'],
-            ['name' => 'Product Coupon Manager Edit', 'slug' => 'product_coupons_manager_edit'],
-            ['name' => 'Product Coupon Manager Delete', 'slug' => 'product_coupons_manager_delete'],
+            // Coupon Manager
+            ['name' => 'Coupon Manager List', 'slug' => 'product_coupons_manager_list'],
+            ['name' => 'Coupon Manager Create', 'slug' => 'product_coupons_manager_create'],
+            ['name' => 'Coupon Manager View', 'slug' => 'product_coupons_manager_view'],
+            ['name' => 'Coupon Manager Edit', 'slug' => 'product_coupons_manager_edit'],
+            ['name' => 'Coupon Manager Delete', 'slug' => 'product_coupons_manager_delete'],
 
             // Commission Manager
             ['name' => 'Commission Manager List', 'slug' => 'commissions_manager_list'],
@@ -205,7 +226,6 @@ class AdminPermissionSeeder extends Seeder
             // Wishlist Manager
             ['name' => 'Wishlist Manager List', 'slug' => 'wishlists_manager_list'],
             ['name' => 'Wishlist Manager View', 'slug' => 'wishlists_manager_view'],
-
         ];
 
         collect($permissions)->each(function ($perm) {
