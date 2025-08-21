@@ -157,7 +157,6 @@ class AdminPermissionSeeder extends Seeder
 
             // Report Manager
             ['name' => 'Report Manager List', 'slug' => 'report_manager_list'],
-            ['name' => 'Report Manager View', 'slug' => 'report_manager_view'],
 
             // Quiz Manager
             ['name' => 'Quiz Manager List', 'slug' => 'quizzes_manager_list'],
