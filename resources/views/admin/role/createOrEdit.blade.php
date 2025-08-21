@@ -33,7 +33,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <button type="submit" class="btn btn-primary"> {{isset($role) ? 'Update' : 'Save'}}</button>
+                        <button type="submit" class="btn btn-primary" id="saveBtn"> {{isset($role) ? 'Update' : 'Save'}}</button>
                         <a href="{{ route('admin.roles.index') }}" class="btn btn-secondary">Back</a>
                     </div>
                 </form>

@@ -24,6 +24,13 @@
                 }
             },
             submitHandler: function(form) {
+                const $btn = $('#saveBtn');
+
+                if ($btn.text().trim().toLowerCase() === 'update') {
+                    $btn.prop('disabled', true).text('Updating...');
+                } else {
+                    $btn.prop('disabled', true).text('Saving...');
+                }
                 form.submit();
             },
             errorElement: 'div',

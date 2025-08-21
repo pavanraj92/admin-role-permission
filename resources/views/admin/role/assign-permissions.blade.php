@@ -22,10 +22,12 @@
                             </button>
                         </div>
 
-                        @php
-                        $permissionGroups = config('permissions.admin.permissions');
+                      @php
+                        $permissionGroups = array_merge(
+                            config('permissions.admin.permissions.common'),
+                            config('permissions.admin.permissions.' .Config::get('GET.industry'))
+                        );
                         @endphp
-
 
                         @foreach($permissionGroups as $group => $groupPermissions)
                         <div class="form-group p-3 mb-4 border rounded" style="background-color: #f8f9fa;">
