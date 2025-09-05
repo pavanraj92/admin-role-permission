@@ -46,6 +46,8 @@ class PublishAdminRolePermissionsModuleCommand extends Command
             $basePath . '/Models/Role.php' => base_path('Modules/AdminRolePermissions/app/Models/Role.php'),
             $basePath . '/Models/Permission.php' => base_path('Modules/AdminRolePermissions/app/Models/Permission.php'),
 
+            $basePath . '/Traits/HasRoles.php' => base_path('Modules/AdminRolePermissions/app/Traits/HasRoles.php'),
+
             // Requests - Role
             $basePath . '/Requests/Role/StoreRoleRequest.php' => base_path('Modules/AdminRolePermissions/app/Http/Requests/Role/StoreRoleRequest.php'),
             $basePath . '/Requests/Role/UpdateRoleRequest.php' => base_path('Modules/AdminRolePermissions/app/Http/Requests/Role/UpdateRoleRequest.php'),
@@ -59,30 +61,22 @@ class PublishAdminRolePermissionsModuleCommand extends Command
             // Config
             dirname($basePath) . '/config/admin.php' => base_path('Modules/AdminRolePermissions/config/admin.php'),
         ];
-
-        foreach ($targets as $src => $dest) {
-            if (is_dir($src)) {
-                $files = File::allFiles($src);
-                foreach ($files as $file) {
-                    $relPath = ltrim(str_replace($src, '', $file->getPathname()), '/\\');
-                    $destPath = $dest . '/' . $relPath;
-                    File::ensureDirectoryExists(dirname($destPath));
-                    $content = File::get($file->getPathname());
-                    $content = $this->transformNamespaces($content, $file->getPathname());
-                    File::put($destPath, $content);
-                    $this->info("Published: $destPath");
-                }
-            } elseif (File::exists($src)) {
-                File::ensureDirectoryExists(dirname($dest));
-                $content = File::get($src);
-                $content = $this->transformNamespaces($content, $src);
-                File::put($dest, $content);
-                $this->info("Published: $dest");
+        
+        
+        foreach ($targets as $source => $destination) {
+            if (File::exists($source)) {
+                File::ensureDirectoryExists(dirname($destination));
+                
+                $content = File::get($source);
+                $content = $this->transformNamespaces($content, $source);
+                
+                File::put($destination, $content);
+                $this->info("Published: " . basename($destination));
+            } else {
+                $this->warn("Source file not found: " . $source);
             }
         }
 
-        // Publish views (copy directory)
-        $this->copyFolder('resources/views', 'resources/views');
     }
 
     protected function transformNamespaces($content, $sourceFile)
@@ -91,43 +85,48 @@ class PublishAdminRolePermissionsModuleCommand extends Command
             // Main namespace transformations
             'namespace admin\\admin_role_permissions\\Controllers;' => 'namespace Modules\\AdminRolePermissions\\app\\Http\\Controllers\\Admin;',
             'namespace admin\\admin_role_permissions\\Models;' => 'namespace Modules\\AdminRolePermissions\\app\\Models;',
-            'namespace admin\\admin_role_permissions\\Requests;' => 'namespace Modules\\AdminRolePermissions\\app\\Http\\Requests;',
+            'namespace admin\\admin_role_permissions\\Requests\\Permission;' => 'namespace Modules\\AdminRolePermissions\\app\\Http\\Requests\\Permission;',
+            'namespace admin\\admin_role_permissions\\Requests\\Role;' => 'namespace Modules\\AdminRolePermissions\\app\\Http\\Requests\\Role;',
             'namespace admin\\admin_role_permissions\\Traits;' => 'namespace Modules\\AdminRolePermissions\\app\\Traits;',
             // Use statements transformations
             'use admin\\admin_role_permissions\\Controllers\\' => 'use Modules\\AdminRolePermissions\\app\\Http\\Controllers\\Admin\\',
             'use admin\\admin_role_permissions\\Models\\' => 'use Modules\\AdminRolePermissions\\app\\Models\\',
-            'use admin\\admin_role_permissions\\Requests\\' => 'use Modules\\AdminRolePermissions\\app\\Http\\Requests\\',
+            'use admin\\admin_role_permissions\\Requests\\Permission\\' => 'use Modules\\AdminRolePermissions\\app\\Http\\Requests\\Permission\\',
+            'use admin\\admin_role_permissions\\Requests\\Role\\' => 'use Modules\\AdminRolePermissions\\app\\Http\\Requests\\Role\\',
             'use admin\\admin_role_permissions\\Traits\\' => 'use Modules\\AdminRolePermissions\\app\\Traits\\',
+
+            // Class references in routes
+            'admin\\admin_role_permissions\\Controllers\\AdminPermissionController' => 'Modules\\AdminRolePermissions\\app\\Http\\Controllers\\Admin\\AdminPermissionController',
+            'admin\\admin_role_permissions\\Controllers\\AdminRoleController' => 'Modules\\AdminRolePermissions\\app\\Http\\Controllers\\Admin\\AdminRoleController',
         ];
         foreach ($namespaceTransforms as $search => $replace) {
             $content = str_replace($search, $replace, $content);
         }
+        // Handle specific file types
+        if (str_contains($sourceFile, 'Controllers')) {
+            $content = str_replace(
+                'use admin\\admin_role_permissions\\Models\\Product;',
+                'use Modules\\AdminRolePermissions\\app\\Models\\Product;',
+                $content
+            );
+            $content = str_replace(
+                'use admin\\admin_role_permissions\\Models\\Order;',
+                'use Modules\\AdminRolePermissions\\app\\Models\\Order;',
+                $content
+            );
+
+            $content = str_replace(
+                'use admin\\admin_role_permissions\\Traits\\HasRoles;',
+                'use Modules\\AdminRolePermissions\\app\\Traits\\HasRoles;',
+                $content
+            );
+           
+            $content = str_replace('use admin\\admin_role_permissions\\Requests\\Permission\\StorePermissionRequest;', 'use Modules\\AdminRolePermissions\\app\\Http\\Requests\\Permission\\StorePermissionRequest;', $content);
+            $content = str_replace('use admin\\admin_role_permissions\\Requests\\Permission\\UpdatePermissionRequest;', 'use Modules\\AdminRolePermissions\\app\\Http\\Requests\\Permission\\UpdatePermissionRequest;', $content);
+            $content = str_replace('use admin\\admin_role_permissions\\Requests\\Role\\StoreRoleRequest;', 'use Modules\\AdminRolePermissions\\app\\Http\\Requests\\Role\\StoreRoleRequest;', $content);
+            $content = str_replace('use admin\\admin_role_permissions\\Requests\\Role\\UpdateRoleRequest;', 'use Modules\\AdminRolePermissions\\app\\Http\\Requests\\Role\\UpdateRoleRequest;', $content);
+        }
         return $content;
-    }
-
-    protected function copyFolder($src, $dest)
-    {
-        $sourceBase = base_path('packages/admin/admin_role_permissions');
-        $destBase = base_path('Modules/AdminRolePermissions');
-        $srcPath = $sourceBase . '/' . $src;
-        $destPath = $destBase . '/' . $dest;
-        if (File::exists($srcPath)) {
-            File::ensureDirectoryExists($destPath);
-            File::copyDirectory($srcPath, $destPath);
-            $this->info("Published: $srcPath → $destPath");
-        }
-    }
-
-    protected function copyRootFile($file)
-    {
-        $sourceBase = base_path('packages/admin/admin_role_permissions');
-        $destBase = base_path('Modules/AdminRolePermissions');
-        $srcFile = $sourceBase . '/' . $file;
-        $destFile = $destBase . '/' . $file;
-        if (File::exists($srcFile)) {
-            File::copy($srcFile, $destFile);
-            $this->info("Published: $srcFile → $destFile");
-        }
     }
 
     protected function updateComposerAutoload()

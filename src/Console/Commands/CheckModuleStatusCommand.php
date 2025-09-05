@@ -13,7 +13,7 @@ class CheckModuleStatusCommand extends Command
     public function handle()
     {
         $this->info('Checking AdminRolePermissions Module Status...');
-        
+
         // Check if module files exist
         $moduleFiles = [
             'Controller (Role)' => base_path('Modules/AdminRolePermissions/app/Http/Controllers/Admin/AdminRoleController.php'),
@@ -24,6 +24,7 @@ class CheckModuleStatusCommand extends Command
             'Request (Role Update)' => base_path('Modules/AdminRolePermissions/app/Http/Requests/Role/UpdateRoleRequest.php'),
             'Request (Permission Store)' => base_path('Modules/AdminRolePermissions/app/Http/Requests/Permission/StorePermissionRequest.php'),
             'Request (Permission Update)' => base_path('Modules/AdminRolePermissions/app/Http/Requests/Permission/UpdatePermissionRequest.php'),
+            'Trait' => base_path('Modules/AdminRolePermissions/app/Http/Traits/HasRoles.php'),
             'Routes' => base_path('Modules/AdminRolePermissions/routes/web.php'),
             'Views (role)' => base_path('Modules/AdminRolePermissions/resources/views/admin/role'),
             'Views (permission)' => base_path('Modules/AdminRolePermissions/resources/views/admin/permission'),
@@ -34,7 +35,7 @@ class CheckModuleStatusCommand extends Command
         foreach ($moduleFiles as $type => $path) {
             if (File::exists($path)) {
                 $this->info("✅ {$type}: EXISTS");
-                
+
                 // Check if it's a PHP file and show last modified time
                 if (str_ends_with($path, '.php')) {
                     $lastModified = date('Y-m-d H:i:s', filemtime($path));
@@ -46,20 +47,25 @@ class CheckModuleStatusCommand extends Command
         }
 
         // Check namespace in controller
-        $controllerPath = base_path('Modules/AdminRolePermissions/app/Http/Controllers/Admin/AdminRoleController.php');
-        if (File::exists($controllerPath)) {
+         $controllers = [
+            'Controller (Role)' => base_path('Modules/AdminRolePermissions/app/Http/Controllers/Admin/AdminRoleController.php'),
+            'Controller (Permission)' => base_path('Modules/AdminRolePermissions/app/Http/Controllers/Admin/AdminPermissionController.php'),
+        ];
+        foreach ($controllers as $name => $controllerPath) {
+            if (File::exists($controllerPath)) {
             $content = File::get($controllerPath);
-            if (str_contains($content, 'namespace Modules\\AdminRolePermissions\\app\\Http\\Controllers\\Admin;')) {
-                $this->info("\n✅ Controller namespace: CORRECT");
+            if (str_contains($content, 'namespace Modules\AdminRolePermissions\app\Http\Controllers\Admin;')) {
+                $this->info("\n✅ {$name} namespace: CORRECT");
             } else {
-                $this->error("\n❌ Controller namespace: INCORRECT");
+                $this->error("\n❌ {$name} namespace: INCORRECT");
             }
-            
+
             // Check for test comment
             if (str_contains($content, 'Test comment - this should persist after refresh')) {
-                $this->info("✅ Test comment: FOUND (changes are persisting)");
+                $this->info("✅ Test comment in {$name}: FOUND (changes are persisting)");
             } else {
-                $this->warn("⚠️  Test comment: NOT FOUND");
+                $this->warn("⚠️  Test comment in {$name}: NOT FOUND");
+            }
             }
         }
 
