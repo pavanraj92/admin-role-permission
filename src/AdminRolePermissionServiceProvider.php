@@ -21,26 +21,31 @@ class AdminRolePermissionServiceProvider extends ServiceProvider
 
     protected function registerViewNamespaces()
     {
-        // Permission views
-        $this->loadViewsFrom([
-            base_path('Modules/AdminRolePermissions/resources/views'),
-            resource_path('views/admin/permission'),
-            __DIR__ . '/../resources/views'
-        ], 'admin_role_permissions');
+        // // Permission views
+        // $this->loadViewsFrom([
+        //     base_path('Modules/AdminRolePermissions/resources/views'),
+        //     resource_path('views/admin/permission'),
+        //     __DIR__ . '/../resources/views'
+        // ], 'admin_role_permissions');
 
-        // Role views
         $this->loadViewsFrom([
-            base_path('Modules/AdminRolePermissions/resources/views'),
-            resource_path('views/admin/role'),
-            __DIR__ . '/../resources/views'
+            base_path('Modules/AdminRolePermissions/resources/views'), // Published module views first
+            resource_path('views/admin/admin_role_permission'), // Published views second
+            __DIR__ . '/../resources/views'      // Package views as fallback
         ], 'admin_role_permissions');
+        // // Role views
+        // $this->loadViewsFrom([
+        //     base_path('Modules/AdminRolePermissions/resources/views'),
+        //     resource_path('views/admin/role'),
+        //     __DIR__ . '/../resources/views'
+        // ], 'admin_role_permissions');
 
-        // Component views
-        $this->loadViewsFrom([
-            base_path('Modules/AdminRolePermissions/resources/views'),
-            resource_path('views/admin/components/global'),
-            __DIR__ . '/../resources/views'
-        ], 'admin_role_permissions');
+        // // Component views
+        // $this->loadViewsFrom([
+        //     base_path('Modules/AdminRolePermissions/resources/views'),
+        //     resource_path('views/admin/components/global'),
+        //     __DIR__ . '/../resources/views'
+        // ], 'admin_role_permissions');
 
         // Extra namespace for explicit usage
         if (is_dir(base_path('Modules/AdminRolePermissions/resources/views'))) {
@@ -61,7 +66,6 @@ class AdminRolePermissionServiceProvider extends ServiceProvider
     protected function registerConfigs()
     {
         $this->mergeConfigFrom(__DIR__ . '/../config/admin.php', 'admin.constants');
-        $this->mergeConfigFrom(__DIR__ . '/../config/admin.php', 'admin.config');
         // Merge so defaults work without publishing
         $this->mergeConfigFrom(__DIR__ . '/../config/admin.php', 'admin');
         $publishedConfig = base_path('Modules/AdminRolePermissions/config/admin.php');
@@ -86,7 +90,7 @@ class AdminRolePermissionServiceProvider extends ServiceProvider
             __DIR__ . '/../config/'             => base_path('Modules/AdminRolePermissions/config/'),
         ], 'admin_role_permissions');
 
-        $this->publishWithNamespaceTransformation();
+        // $this->publishWithNamespaceTransformation();
     }
 
     protected function registerAdminRoutes()
@@ -104,7 +108,11 @@ class AdminRolePermissionServiceProvider extends ServiceProvider
         Route::middleware('web')
             ->prefix("{$slug}/admin")
             ->group(function () {
-                $this->loadRoutesFrom(__DIR__ . '/routes/web.php');
+                 if (file_exists(base_path('Modules/AdminRolePermissions/routes/web.php'))) {
+                    $this->loadRoutesFrom(base_path('Modules/AdminRolePermissions/routes/web.php'));
+                } else {
+                    $this->loadRoutesFrom(__DIR__ . '/routes/web.php');
+                }
             });
     }
 
@@ -151,32 +159,50 @@ class AdminRolePermissionServiceProvider extends ServiceProvider
             "$srcBase/Traits/HasRoles.php" => "$moduleBase/app/Traits/HasRoles.php",
         ];
 
-        foreach ($filesWithNamespaces as $from => $to) {
-            if (File::exists($from)) {
-                // Ensure the destination directory exists
-                $destinationDir = dirname($to);
-                if (!File::isDirectory($destinationDir)) {
-                    File::makeDirectory($destinationDir, 0755, true);
-                }
+        // foreach ($filesWithNamespaces as $from => $to) {
+        //     if (File::exists($from)) {
+        //         // Ensure the destination directory exists
+        //         $destinationDir = dirname($to);
+        //         if (!File::isDirectory($destinationDir)) {
+        //             File::makeDirectory($destinationDir, 0755, true);
+        //         }
+
+        //         // Read the source file
+        //         $content = File::get($from);
+
+        //         // Transform namespaces based on file type
+        //         if (str_contains($to, '/Controllers/')) {
+        //             $content = str_replace('namespace admin\admin_role_permissions\Controllers;', 'namespace Modules\AdminRolePermissions\app\Http\Controllers\Admin;', $content);
+        //             $content = str_replace('use admin\admin_role_permissions\Requests\\Permission\\', 'use Modules\AdminRolePermissions\app\Http\Requests\\Permission\\', $content);
+        //             $content = str_replace('use admin\admin_role_permissions\Requests\\Role\\', 'use Modules\AdminRolePermissions\app\Http\Requests\\Role\\', $content);
+        //             $content = str_replace('use admin\admin_role_permissions\Models\\', 'use Modules\AdminRolePermissions\app\Models\\', $content);
+        //         } elseif (str_contains($to, '/Models/')) {
+        //             $content = str_replace('namespace admin\admin_role_permissions\Models;', 'namespace Modules\AdminRolePermissions\app\Models;', $content);
+        //         } elseif (str_contains($to, '/Requests/')) {
+        //             $content = str_replace('namespace admin\admin_role_permissions\Requests\Permission;', 'namespace Modules\AdminRolePermissions\app\Http\Requests\Permission;', $content);
+        //             $content = str_replace('namespace admin\admin_role_permissions\Requests\Role;', 'namespace Modules\AdminRolePermissions\app\Http\Requests\Role;', $content);
+        //         } elseif (str_contains($to, '/routes/')) {
+        //             $content = str_replace('use admin\admin_role_permissions\Controllers\\', 'use Modules\AdminRolePermissions\app\Http\Controllers\Admin\\', $content);
+        //         }
+
+        //         // Write the transformed content
+        //         File::put($to, $content);
+        //     }
+        // }
+
+           foreach ($filesWithNamespaces as $source => $destination) {
+            if (File::exists($source)) {
+                // Create destination directory if it doesn't exist
+                File::ensureDirectoryExists(dirname($destination));
 
                 // Read the source file
-                $content = File::get($from);
+                $content = File::get($source);
 
                 // Transform namespaces based on file type
-                if (str_contains($to, '/Controllers/')) {
-                    $content = str_replace('namespace admin\admin_role_permissions\Controllers;', 'namespace Modules\AdminRolePermissions\app\Http\Controllers\Admin;', $content);
-                    $content = str_replace('use admin\admin_role_permissions\Requests\\', 'use Modules\AdminRolePermissions\app\Http\Requests\\', $content);
-                    $content = str_replace('use admin\admin_role_permissions\Models\\', 'use Modules\AdminRolePermissions\app\Models\\', $content);
-                } elseif (str_contains($to, '/Models/')) {
-                    $content = str_replace('namespace admin\admin_role_permissions\Models;', 'namespace Modules\AdminRolePermissions\app\Models;', $content);
-                } elseif (str_contains($to, '/Requests/')) {
-                    $content = str_replace('namespace admin\admin_role_permissions\Requests;', 'namespace Modules\AdminRolePermissions\app\Http\Requests;', $content);
-                } elseif (str_contains($to, '/routes/')) {
-                    $content = str_replace('use admin\admin_role_permissions\Controllers\\', 'use Modules\AdminRolePermissions\app\Http\Controllers\Admin\\', $content);
-                }
+                $content = $this->transformNamespaces($content, $source);
 
-                // Write the transformed content
-                File::put($to, $content);
+                // Write the transformed content to destination
+                File::put($destination, $content);
             }
         }
     }
@@ -188,15 +214,20 @@ class AdminRolePermissionServiceProvider extends ServiceProvider
             // Main namespace transformations
             'namespace admin\\admin_role_permissions\\Controllers;'    => 'namespace Modules\\AdminRolePermissions\\app\\Http\\Controllers\\Admin;',
             'namespace admin\\admin_role_permissions\\Models;'         => 'namespace Modules\\AdminRolePermissions\\app\\Models;',
-            'namespace admin\\admin_role_permissions\\Requests;'       => 'namespace Modules\\AdminRolePermissions\\app\\Http\\Requests;',
+            'namespace admin\\admin_role_permissions\\Requests\\Permission;'       => 'namespace Modules\\AdminRolePermissions\\app\\Http\\Requests\\Permission;',
+            'namespace admin\\admin_role_permissions\\Requests\\Role;'       => 'namespace Modules\\AdminRolePermissions\\app\\Http\\Requests\\Role;',
+            'namespace admin\\admin_role_permissions\\Traits;'       => 'namespace Modules\\AdminRolePermissions\\app\\Http\\Traits;',
 
             // Use statements transformations
             'use admin\\admin_role_permissions\\Controllers\\'         => 'use Modules\\AdminRolePermissions\\app\\Http\\Controllers\\Admin\\',
             'use admin\\admin_role_permissions\\Models\\'              => 'use Modules\\AdminRolePermissions\\app\\Models\\',
-            'use admin\\admin_role_permissions\\Requests\\'            => 'use Modules\\AdminRolePermissions\\app\\Http\\Requests\\',
+            'use admin\\admin_role_permissions\\Requests\\Permission\\'            => 'use Modules\\AdminRolePermissions\\app\\Http\\Requests\\Permission\\',
+            'use admin\\admin_role_permissions\\Requests\\Role\\'            => 'use Modules\\AdminRolePermissions\\app\\Http\\Requests\\Role\\',
+            'use admin\\admin_role_permissions\\Traits\\'            => 'use Modules\\AdminRolePermissions\\app\\Http\\Traits\\',
 
             // Class references in routes
-            'admin\\admin_role_permissions\\Controllers\\CourseManagerController' => 'Modules\\AdminRolePermissions\\app\\Http\\Controllers\\Admin\\CourseManagerController',
+            'admin\\admin_role_permissions\\Controllers\\AdminPermissionController' => 'Modules\\AdminRolePermissions\\app\\Http\\Controllers\\Admin\\AdminPermissionController',
+            'admin\\admin_role_permissions\\Controllers\\AdminRoleController' => 'Modules\\AdminRolePermissions\\app\\Http\\Controllers\\Admin\\AdminRoleController',
         ];
 
         // Apply transformations
@@ -226,6 +257,11 @@ class AdminRolePermissionServiceProvider extends ServiceProvider
             'use Modules\\AdminRolePermissions\\app\\Models\\Permission;',
             $content
         );
+        $content = str_replace(
+            'use admin\\admin_role_permissions\\Models\\Role;',
+            'use Modules\\AdminRoleRoles\\app\\Models\\Permission;',
+            $content
+        );
 
         $content = str_replace(
             'use admin\\admin_role_permissions\\Requests\\Permission\\StorePermissionRequest;',
@@ -236,6 +272,22 @@ class AdminRolePermissionServiceProvider extends ServiceProvider
         $content = str_replace(
             'use admin\\admin_role_permissions\\Requests\\Permission\\UpdatePermissionRequest;',
             'use Modules\\AdminRolePermissions\\app\\Http\\Requests\\Permission\\UpdatePermissionRequest;',
+            $content
+        );
+        $content = str_replace(
+            'use admin\\admin_role_permissions\\Requests\\Role\\StoreRoleRequest;',
+            'use Modules\\AdminRolePermissions\\app\\Http\\Requests\\Role\\StoreRoleRequest;',
+            $content
+        );
+
+        $content = str_replace(
+            'use admin\\admin_role_permissions\\Requests\\Role\\UpdateRoleRequest;',
+            'use Modules\\AdminRolePermissions\\app\\Http\\Requests\\Role\\UpdateRoleRequest;',
+            $content
+        );
+        $content = str_replace(
+            'use admin\\admin_role_permissions\\Traits\\HasRoles;',
+            'use Modules\\AdminRolePermissions\\app\\Http\\Traits\\HasRoles;',
             $content
         );
 
@@ -253,11 +305,18 @@ class AdminRolePermissionServiceProvider extends ServiceProvider
 
     protected function transformRequestNamespaces($content)
     {
-        return str_replace(
-            'namespace admin\\admin_role_permissions\\Requests;',
-            'namespace Modules\\AdminRolePermissions\\app\\Http\\Requests;',
-            $content
-        );
+        // $content = str_replace(
+        //     'namespace admin\\admin_role_permissions\\Requests\\Permission;',
+        //     'namespace Modules\\AdminRolePermissions\\app\\Http\\Requests\\Permission;',
+        //     $content
+        // );
+        // $content = str_replace(
+        //     'namespace admin\\admin_role_permissions\\Requests\\Role;',
+        //     'namespace Modules\\AdminRolePermissions\\app\\Http\\Requests\\Role;',
+        //     $content
+        // );
+
+        return $content;
     }
 
     protected function transformRouteNamespaces($content)
@@ -266,6 +325,11 @@ class AdminRolePermissionServiceProvider extends ServiceProvider
         $content = str_replace(
             'admin\\admin_role_permissions\\Controllers\\AdminPermissionController',
             'Modules\\admin_role_permissions\\app\\Http\\Controllers\\Admin\\AdminPermissionController',
+            $content
+        );
+        $content = str_replace(
+            'admin\\admin_role_permissions\\Controllers\\AdminRoleController',
+            'Modules\\admin_role_permissions\\app\\Http\\Controllers\\Admin\\AdminRoleController',
             $content
         );
 
