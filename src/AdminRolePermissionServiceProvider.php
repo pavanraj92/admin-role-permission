@@ -242,7 +242,8 @@ class AdminRolePermissionServiceProvider extends ServiceProvider
             $content
         );
 
-        return str_replace(
+        // Ensure Admin model reference from admin_auth is transformed as well
+        $content = str_replace(
             'use admin\\admin_auth\\Models\\Admin;',
             'use Modules\\AdminAuth\\app\\Models\\Admin;',
             $content
@@ -253,16 +254,17 @@ class AdminRolePermissionServiceProvider extends ServiceProvider
 
     protected function transformModelNamespaces($content)
     {
-        return str_replace(
+        $content = str_replace(
             'use admin\\admin_role_permissions\\Models;',
             'use Modules\\AdminRolePermissions\\app\\Models;',
             $content
         );
-        return str_replace(
+        $content = str_replace(
             'use admin\\admin_auth\\Models\\Admin;',
             'use Modules\\AdminAuth\\app\\Models\\Admin;',
             $content
         );
+        return $content;
     }
 
     protected function transformRequestNamespaces($content)

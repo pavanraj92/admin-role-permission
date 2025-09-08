@@ -110,12 +110,13 @@ class PublishAdminRolePermissionsModuleCommand extends Command
                 $content
             );
 
-            return str_replace(
-                'namespace admin\\admin_auth\\Models;',
-                'namespace Modules\\AdminAuth\\app\\Models;',
+            // Fix: previously returned early and skipped the rest of replacements
+            $content = str_replace(
+                'use admin\\admin_auth\\Models\\Admin;',
+                'use Modules\\AdminAuth\\app\\Models\\Admin;',
                 $content
             );
-           
+
             $content = str_replace('use admin\\admin_role_permissions\\Requests\\Permission\\StorePermissionRequest;', 'use Modules\\AdminRolePermissions\\app\\Http\\Requests\\Permission\\StorePermissionRequest;', $content);
             $content = str_replace('use admin\\admin_role_permissions\\Requests\\Permission\\UpdatePermissionRequest;', 'use Modules\\AdminRolePermissions\\app\\Http\\Requests\\Permission\\UpdatePermissionRequest;', $content);
             $content = str_replace('use admin\\admin_role_permissions\\Requests\\Role\\StoreRoleRequest;', 'use Modules\\AdminRolePermissions\\app\\Http\\Requests\\Role\\StoreRoleRequest;', $content);
