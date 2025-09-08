@@ -105,19 +105,14 @@ class PublishAdminRolePermissionsModuleCommand extends Command
         // Handle specific file types
         if (str_contains($sourceFile, 'Controllers')) {
             $content = str_replace(
-                'use admin\\admin_role_permissions\\Models\\Product;',
-                'use Modules\\AdminRolePermissions\\app\\Models\\Product;',
-                $content
-            );
-            $content = str_replace(
-                'use admin\\admin_role_permissions\\Models\\Order;',
-                'use Modules\\AdminRolePermissions\\app\\Models\\Order;',
+                'use admin\\admin_role_permissions\\Traits\\HasRoles;',
+                'use Modules\\AdminRolePermissions\\app\\Traits\\HasRoles;',
                 $content
             );
 
-            $content = str_replace(
-                'use admin\\admin_role_permissions\\Traits\\HasRoles;',
-                'use Modules\\AdminRolePermissions\\app\\Traits\\HasRoles;',
+            return str_replace(
+                'namespace admin\\admin_auth\\Models;',
+                'namespace Modules\\AdminAuth\\app\\Models;',
                 $content
             );
            
