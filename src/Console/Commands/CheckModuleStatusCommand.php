@@ -24,7 +24,7 @@ class CheckModuleStatusCommand extends Command
             'Request (Role Update)' => base_path('Modules/AdminRolePermissions/app/Http/Requests/Role/UpdateRoleRequest.php'),
             'Request (Permission Store)' => base_path('Modules/AdminRolePermissions/app/Http/Requests/Permission/StorePermissionRequest.php'),
             'Request (Permission Update)' => base_path('Modules/AdminRolePermissions/app/Http/Requests/Permission/UpdatePermissionRequest.php'),
-            'Trait' => base_path('Modules/AdminRolePermissions/app/Http/Traits/HasRoles.php'),
+            'Trait' => base_path('Modules/AdminRolePermissions/app/Traits/HasRoles.php'),
             'Routes' => base_path('Modules/AdminRolePermissions/routes/web.php'),
             'Views (role)' => base_path('Modules/AdminRolePermissions/resources/views/admin/role'),
             'Views (permission)' => base_path('Modules/AdminRolePermissions/resources/views/admin/permission'),

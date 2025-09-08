@@ -165,14 +165,14 @@ class AdminRolePermissionServiceProvider extends ServiceProvider
             'namespace admin\\admin_role_permissions\\Models;'         => 'namespace Modules\\AdminRolePermissions\\app\\Models;',
             'namespace admin\\admin_role_permissions\\Requests\\Permission;'       => 'namespace Modules\\AdminRolePermissions\\app\\Http\\Requests\\Permission;',
             'namespace admin\\admin_role_permissions\\Requests\\Role;'       => 'namespace Modules\\AdminRolePermissions\\app\\Http\\Requests\\Role;',
-            'namespace admin\\admin_role_permissions\\Traits;'       => 'namespace Modules\\AdminRolePermissions\\app\\Http\\Traits;',
+            'namespace admin\\admin_role_permissions\\Traits;'       => 'namespace Modules\\AdminRolePermissions\\app\\Traits;',
 
             // Use statements transformations
             'use admin\\admin_role_permissions\\Controllers\\'         => 'use Modules\\AdminRolePermissions\\app\\Http\\Controllers\\Admin\\',
             'use admin\\admin_role_permissions\\Models\\'              => 'use Modules\\AdminRolePermissions\\app\\Models\\',
             'use admin\\admin_role_permissions\\Requests\\Permission\\'            => 'use Modules\\AdminRolePermissions\\app\\Http\\Requests\\Permission\\',
             'use admin\\admin_role_permissions\\Requests\\Role\\'            => 'use Modules\\AdminRolePermissions\\app\\Http\\Requests\\Role\\',
-            'use admin\\admin_role_permissions\\Traits\\'            => 'use Modules\\AdminRolePermissions\\app\\Http\\Traits\\',
+            'use admin\\admin_role_permissions\\Traits\\'            => 'use Modules\\AdminRolePermissions\\app\\Traits\\',
 
             // Class references in routes
             'admin\\admin_role_permissions\\Controllers\\AdminPermissionController' => 'Modules\\AdminRolePermissions\\app\\Http\\Controllers\\Admin\\AdminPermissionController',
@@ -193,6 +193,8 @@ class AdminRolePermissionServiceProvider extends ServiceProvider
             $content = $this->transformRequestNamespaces($content);
         } elseif (str_contains($sourceFile, 'routes')) {
             $content = $this->transformRouteNamespaces($content);
+        }elseif (str_contains($sourceFile, 'Traits')) {
+            $content = $this->transformTraitNamespaces($content);
         }
 
         return $content;
@@ -208,7 +210,7 @@ class AdminRolePermissionServiceProvider extends ServiceProvider
         );
         $content = str_replace(
             'use admin\\admin_role_permissions\\Models\\Role;',
-            'use Modules\\AdminRoleRoles\\app\\Models\\Permission;',
+            'use Modules\\AdminRolePermissions\\app\\Models\\Role;',
             $content
         );
 
@@ -236,7 +238,13 @@ class AdminRolePermissionServiceProvider extends ServiceProvider
         );
         $content = str_replace(
             'use admin\\admin_role_permissions\\Traits\\HasRoles;',
-            'use Modules\\AdminRolePermissions\\app\\Http\\Traits\\HasRoles;',
+            'use Modules\\AdminRolePermissions\\app\\Traits\\HasRoles;',
+            $content
+        );
+
+        return str_replace(
+            'use admin\\admin_auth\\Models\\Admin;',
+            'use Modules\\AdminAuth\\app\\Models\\Admin;',
             $content
         );
 
@@ -246,8 +254,13 @@ class AdminRolePermissionServiceProvider extends ServiceProvider
     protected function transformModelNamespaces($content)
     {
         return str_replace(
-            'namespace admin\\admin_role_permissions\\Models;',
-            'namespace Modules\\AdminRolePermissions\\app\\Models;',
+            'use admin\\admin_role_permissions\\Models;',
+            'use Modules\\AdminRolePermissions\\app\\Models;',
+            $content
+        );
+        return str_replace(
+            'use admin\\admin_auth\\Models\\Admin;',
+            'use Modules\\AdminAuth\\app\\Models\\Admin;',
             $content
         );
     }
@@ -256,18 +269,27 @@ class AdminRolePermissionServiceProvider extends ServiceProvider
     {
         return $content;
     }
+    protected function transformTraitNamespaces($content)
+    {
+        $content = str_replace(
+            'use admin\\admin_role_permissions\\Models\\Role;',
+            'use Modules\\AdminRolePermissions\\app\\Models\\Role;',
+            $content
+        );
+        return $content;
+    }
 
     protected function transformRouteNamespaces($content)
     {
         // Update controller references in routes
         $content = str_replace(
             'admin\\admin_role_permissions\\Controllers\\AdminPermissionController',
-            'Modules\\admin_role_permissions\\app\\Http\\Controllers\\Admin\\AdminPermissionController',
+            'Modules\\AdminRolePermissions\\app\\Http\\Controllers\\Admin\\AdminPermissionController',
             $content
         );
         $content = str_replace(
             'admin\\admin_role_permissions\\Controllers\\AdminRoleController',
-            'Modules\\admin_role_permissions\\app\\Http\\Controllers\\Admin\\AdminRoleController',
+            'Modules\\AdminRolePermissions\\app\\Http\\Controllers\\Admin\\AdminRoleController',
             $content
         );
 
