@@ -3,6 +3,7 @@
 namespace admin\admin_role_permissions\Requests\Role;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreRoleRequest extends FormRequest
 {
@@ -36,7 +37,7 @@ class StoreRoleRequest extends FormRequest
                 'string',
                 'min:3',
                 'max:50',
-                'unique:roles,name',
+                Rule::unique('roles', 'name')->whereNull('deleted_at'),
                 'regex:/^[A-Za-z]+(?: [A-Za-z]+)*$/', // only letters + single spaces
             ],
         ];

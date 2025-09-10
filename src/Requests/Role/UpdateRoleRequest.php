@@ -37,7 +37,7 @@ class UpdateRoleRequest extends FormRequest
                 'string',
                 'min:3',
                 'max:50',
-                Rule::unique('roles', 'name')->ignore($this->route('role')), // allow current role name
+                Rule::unique('roles', 'name')->ignore($this->route('role')->id)->whereNull('deleted_at'), // allow current role name
                 'regex:/^[A-Za-z]+(?: [A-Za-z]+)*$/', // only letters + single spaces
             ],
         ];
