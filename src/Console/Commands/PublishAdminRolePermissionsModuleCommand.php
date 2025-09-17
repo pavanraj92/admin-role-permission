@@ -121,6 +121,17 @@ class PublishAdminRolePermissionsModuleCommand extends Command
             $content = str_replace('use admin\\admin_role_permissions\\Requests\\Permission\\UpdatePermissionRequest;', 'use Modules\\AdminRolePermissions\\app\\Http\\Requests\\Permission\\UpdatePermissionRequest;', $content);
             $content = str_replace('use admin\\admin_role_permissions\\Requests\\Role\\StoreRoleRequest;', 'use Modules\\AdminRolePermissions\\app\\Http\\Requests\\Role\\StoreRoleRequest;', $content);
             $content = str_replace('use admin\\admin_role_permissions\\Requests\\Role\\UpdateRoleRequest;', 'use Modules\\AdminRolePermissions\\app\\Http\\Requests\\Role\\UpdateRoleRequest;', $content);
+        }elseif(str_contains($sourceFile, 'Models')){
+            $content = str_replace(
+                'use admin\\admin_role_permissions\\Models;',
+                'use Modules\\AdminRolePermissions\\app\\Models;',
+                $content
+            );
+            $content = str_replace(
+                'use admin\\admin_auth\\Models\\Admin;',
+                'use Modules\\AdminAuth\\app\\Models\\Admin;',
+                $content
+            );
         }
         return $content;
     }
